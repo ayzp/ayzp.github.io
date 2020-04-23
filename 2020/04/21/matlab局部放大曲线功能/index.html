@@ -241,9 +241,7 @@
 <li>新建<code>magnify.m</code>文件，并将下列代码复制到<code>magnify.m</code>文件中。</li>
 </ol>
 <a id="more"></a>
-
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><span class="line">function magnify(f1)</span><br><span class="line">%</span><br><span class="line">%magnify(f1)</span><br><span class="line">%</span><br><span class="line">%  Figure creates a magnification box when under the mouse</span><br><span class="line">%  position when a button is pressed.  Press &#39;+&#39;&#x2F;&#39;-&#39; while</span><br><span class="line">%  button pressed to increase&#x2F;decrease magnification. Press</span><br><span class="line">%  &#39;&gt;&#39;&#x2F;&#39;&lt;&#39; while button pressed to increase&#x2F;decrease box size.</span><br><span class="line">%  Hold &#39;Ctrl&#39; while clicking to leave magnification on figure.</span><br><span class="line">%</span><br><span class="line">%  Example:</span><br><span class="line">%     plot(1:100,randn(1,100),(1:300)&#x2F;3,rand(1,300)), grid on,</span><br><span class="line">%     magnify;</span><br><span class="line"></span><br><span class="line">% Rick Hindman - 7&#x2F;29&#x2F;04</span><br><span class="line"></span><br><span class="line">if (nargin &#x3D;&#x3D; 0), f1 &#x3D; gcf; end;</span><br><span class="line">set(f1, ...</span><br><span class="line">   &#39;WindowButtonDownFcn&#39;,  @ButtonDownCallback, ...</span><br><span class="line">   &#39;WindowButtonUpFcn&#39;, @ButtonUpCallback, ...</span><br><span class="line">   &#39;WindowButtonMotionFcn&#39;, @ButtonMotionCallback, ...</span><br><span class="line">   &#39;KeyPressFcn&#39;, @KeyPressCallback);</span><br><span class="line">return;</span><br><span class="line"></span><br><span class="line">function ButtonDownCallback(src,eventdata)</span><br><span class="line">   f1 &#x3D; src;</span><br><span class="line">   a1 &#x3D; get(f1,&#39;CurrentAxes&#39;);</span><br><span class="line">   a2 &#x3D; copyobj(a1,f1);</span><br><span class="line"></span><br><span class="line">   set(f1, ...</span><br><span class="line">      &#39;UserData&#39;,[f1,a1,a2], ...</span><br><span class="line">      &#39;Pointer&#39;,&#39;fullcrosshair&#39;, ...</span><br><span class="line">      &#39;CurrentAxes&#39;,a2);</span><br><span class="line">   set(a2, ...</span><br><span class="line">      &#39;UserData&#39;,[2,0.2], ...  %magnification, frame size</span><br><span class="line">      &#39;Color&#39;,get(a1,&#39;Color&#39;), ...</span><br><span class="line">      &#39;Box&#39;,&#39;on&#39;);</span><br><span class="line">   xlabel(&#39;&#39;); ylabel(&#39;&#39;); zlabel(&#39;&#39;); title(&#39;&#39;);</span><br><span class="line">   set(get(a2,&#39;Children&#39;), ...</span><br><span class="line">      &#39;LineWidth&#39;, 2);</span><br><span class="line">   set(a1, ...</span><br><span class="line">      &#39;Color&#39;,get(a1,&#39;Color&#39;)*0.95);</span><br><span class="line">   set(f1, ...</span><br><span class="line">      &#39;CurrentAxes&#39;,a1);</span><br><span class="line">   ButtonMotionCallback(src);</span><br><span class="line">return;</span><br><span class="line"></span><br><span class="line">function ButtonUpCallback(src,eventdata)</span><br><span class="line">   H &#x3D; get(src,&#39;UserData&#39;);</span><br><span class="line">   f1 &#x3D; H(1); a1 &#x3D; H(2); a2 &#x3D; H(3);</span><br><span class="line">   set(a1, ...</span><br><span class="line">      &#39;Color&#39;,get(a2,&#39;Color&#39;));</span><br><span class="line">   set(f1, ...</span><br><span class="line">      &#39;UserData&#39;,[], ...</span><br><span class="line">      &#39;Pointer&#39;,&#39;arrow&#39;, ...</span><br><span class="line">      &#39;CurrentAxes&#39;,a1);</span><br><span class="line">   if ~strcmp(get(f1,&#39;SelectionType&#39;),&#39;alt&#39;),</span><br><span class="line">      delete(a2);</span><br><span class="line">   end;</span><br><span class="line">return;</span><br><span class="line"></span><br><span class="line">function ButtonMotionCallback(src,eventdata)</span><br><span class="line">   H &#x3D; get(src,&#39;UserData&#39;);</span><br><span class="line">   if ~isempty(H)</span><br><span class="line">      f1 &#x3D; H(1); a1 &#x3D; H(2); a2 &#x3D; H(3);</span><br><span class="line">      a2_param &#x3D; get(a2,&#39;UserData&#39;);</span><br><span class="line">      f_pos &#x3D; get(f1,&#39;Position&#39;);</span><br><span class="line">      a1_pos &#x3D; get(a1,&#39;Position&#39;);</span><br><span class="line"></span><br><span class="line">      [f_cp, a1_cp] &#x3D; pointer2d(f1,a1);</span><br><span class="line"></span><br><span class="line">      set(a2,&#39;Position&#39;,[(f_cp.&#x2F;f_pos(3:4)) 0 0]+a2_param(2)*a1_pos(3)*[-1 -1 2 2]);</span><br><span class="line">      a2_pos &#x3D; get(a2,&#39;Position&#39;);</span><br><span class="line"></span><br><span class="line">   	set(a2,&#39;XLim&#39;,a1_cp(1)+(1&#x2F;a2_param(1))*(a2_pos(3)&#x2F;a1_pos(3))*diff(get(a1,&#39;XLim&#39;))*[-0.5 0.5]);</span><br><span class="line">   	set(a2,&#39;YLim&#39;,a1_cp(2)+(1&#x2F;a2_param(1))*(a2_pos(4)&#x2F;a1_pos(4))*diff(get(a1,&#39;YLim&#39;))*[-0.5 0.5]);</span><br><span class="line">   end;</span><br><span class="line">return;</span><br><span class="line"></span><br><span class="line">function KeyPressCallback(src,eventdata)</span><br><span class="line">   H &#x3D; get(gcf,&#39;UserData&#39;);</span><br><span class="line">   if ~isempty(H)</span><br><span class="line">      f1 &#x3D; H(1); a1 &#x3D; H(2); a2 &#x3D; H(3);</span><br><span class="line">      a2_param &#x3D; get(a2,&#39;UserData&#39;);</span><br><span class="line">      if (strcmp(get(f1,&#39;CurrentCharacter&#39;),&#39;+&#39;) | strcmp(get(f1,&#39;CurrentCharacter&#39;),&#39;&#x3D;&#39;))</span><br><span class="line">         a2_param(1) &#x3D; a2_param(1)*1.2;</span><br><span class="line">      elseif (strcmp(get(f1,&#39;CurrentCharacter&#39;),&#39;-&#39;) | strcmp(get(f1,&#39;CurrentCharacter&#39;),&#39;_&#39;))</span><br><span class="line">         a2_param(1) &#x3D; a2_param(1)&#x2F;1.2;</span><br><span class="line">      elseif (strcmp(get(f1,&#39;CurrentCharacter&#39;),&#39;&lt;&#39;) | strcmp(get(f1,&#39;CurrentCharacter&#39;),&#39;,&#39;))</span><br><span class="line">         a2_param(2) &#x3D; a2_param(2)&#x2F;1.2;</span><br><span class="line">      elseif (strcmp(get(f1,&#39;CurrentCharacter&#39;),&#39;&gt;&#39;) | strcmp(get(f1,&#39;CurrentCharacter&#39;),&#39;.&#39;))</span><br><span class="line">         a2_param(2) &#x3D; a2_param(2)*1.2;</span><br><span class="line">      end;</span><br><span class="line">      set(a2,&#39;UserData&#39;,a2_param);</span><br><span class="line">   	ButtonMotionCallback(src);</span><br><span class="line">   end;</span><br><span class="line">return;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">% Included for completeness (usually in own file)</span><br><span class="line">function [fig_pointer_pos, axes_pointer_val] &#x3D; pointer2d(fig_hndl,axes_hndl)</span><br><span class="line">%</span><br><span class="line">%pointer2d(fig_hndl,axes_hndl)</span><br><span class="line">%</span><br><span class="line">%	Returns the coordinates of the pointer (in pixels)</span><br><span class="line">%	in the desired figure (fig_hndl) and the coordinates</span><br><span class="line">%       in the desired axis (axes coordinates)</span><br><span class="line">%</span><br><span class="line">% Example:</span><br><span class="line">%  figure(1),</span><br><span class="line">%  hold on,</span><br><span class="line">%  for i &#x3D; 1:1000,</span><br><span class="line">%     [figp,axp]&#x3D;pointer2d;</span><br><span class="line">%     plot(axp(1),axp(2),&#39;.&#39;,&#39;EraseMode&#39;,&#39;none&#39;);</span><br><span class="line">%     drawnow;</span><br><span class="line">%  end;</span><br><span class="line">%  hold off</span><br><span class="line"></span><br><span class="line">% Rick Hindman - 4&#x2F;18&#x2F;01</span><br><span class="line"></span><br><span class="line">if (nargin &#x3D;&#x3D; 0), fig_hndl &#x3D; gcf; axes_hndl &#x3D; gca; end;</span><br><span class="line">if (nargin &#x3D;&#x3D; 1), axes_hndl &#x3D; get(fig_hndl,&#39;CurrentAxes&#39;); end;</span><br><span class="line"></span><br><span class="line">set(fig_hndl,&#39;Units&#39;,&#39;pixels&#39;);</span><br><span class="line"></span><br><span class="line">pointer_pos &#x3D; get(0,&#39;PointerLocation&#39;);	%pixels &#123;0,0&#125; lower left</span><br><span class="line">fig_pos &#x3D; get(fig_hndl,&#39;Position&#39;);	%pixels &#123;l,b,w,h&#125;</span><br><span class="line"></span><br><span class="line">fig_pointer_pos &#x3D; pointer_pos - fig_pos([1,2]);</span><br><span class="line">set(fig_hndl,&#39;CurrentPoint&#39;,fig_pointer_pos);</span><br><span class="line"></span><br><span class="line">if (isempty(axes_hndl)),</span><br><span class="line">	axes_pointer_val &#x3D; [];</span><br><span class="line">elseif (nargout &#x3D;&#x3D; 2),</span><br><span class="line">	axes_pointer_line &#x3D; get(axes_hndl,&#39;CurrentPoint&#39;);</span><br><span class="line">	axes_pointer_val &#x3D; sum(axes_pointer_line)&#x2F;2;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
-
 <h1 id="二-操作"><a href="#二-操作" class="headerlink" title="二 操作"></a>二 操作</h1><ol>
 <li>将magnify.m放置到主函数所在文件夹。</li>
 <li>绘制你的轨迹图像<br><img src="/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145509392.png" alt="在这里插入图片描述"></li>
@@ -355,7 +353,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -413,13 +411,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">9k</span>
+    <span title="Symbols count total">11k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">8 mins.</span>
+    <span title="Reading time total">10 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>
@@ -492,6 +490,63 @@
 
 
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 
