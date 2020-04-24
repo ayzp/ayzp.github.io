@@ -5,44 +5,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 4.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blogs/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blogs/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blogs/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blogs/images/logo.svg" color="#222">
 
-<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/blogs/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/blogs/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"ayzp.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"gitee.com","root":"/blogs/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="前言在写论文时，遇到需要放大局部曲线的情景，故而百度寻找答案。现将结果记录于笔记中，方便日后直接查找使用。 一 准备 matlab软件 新建magnify.m文件，并将下列代码复制到magnify.m文件中。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="matlab局部放大曲线功能">
-<meta property="og:url" content="https://ayzp.github.io/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/index.html">
+<meta property="og:url" content="https://gitee.com/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/index.html">
 <meta property="og:site_name" content="AYZP">
 <meta property="og:description" content="前言在写论文时，遇到需要放大局部曲线的情景，故而百度寻找答案。现将结果记录于笔记中，方便日后直接查找使用。 一 准备 matlab软件 新建magnify.m文件，并将下列代码复制到magnify.m文件中。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://ayzp.github.io/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145509392.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/2020042114552287.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145559520.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145612297.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/2020042114572963.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145813767.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145830281.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/2020042114583989.png">
+<meta property="og:image" content="https://gitee.com/blogs/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145509392.png">
+<meta property="og:image" content="https://gitee.com/blogs/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/2020042114552287.png">
+<meta property="og:image" content="https://gitee.com/blogs/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145559520.png">
+<meta property="og:image" content="https://gitee.com/blogs/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145612297.png">
+<meta property="og:image" content="https://gitee.com/blogs/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/2020042114572963.png">
+<meta property="og:image" content="https://gitee.com/blogs/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145813767.png">
+<meta property="og:image" content="https://gitee.com/blogs/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145830281.png">
+<meta property="og:image" content="https://gitee.com/blogs/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/2020042114583989.png">
 <meta property="article:published_time" content="2020-04-21T12:39:25.000Z">
 <meta property="article:modified_time" content="2020-04-23T07:59:31.428Z">
 <meta property="article:author" content="Ayzp">
 <meta property="article:tag" content="工具">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://ayzp.github.io/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145509392.png">
+<meta name="twitter:image" content="https://gitee.com/blogs/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145509392.png">
 
-<link rel="canonical" href="https://ayzp.github.io/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/">
+<link rel="canonical" href="https://gitee.com/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/">
 
 
 <script id="page-configurations">
@@ -104,7 +104,7 @@
 
   <div class="site-meta">
 
-    <a href="/" class="brand" rel="start">
+    <a href="/blogs/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
       <h1 class="site-title">AYZP</h1>
       <span class="logo-line-after"><i></i></span>
@@ -124,22 +124,22 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+    <a href="/blogs/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
         <li class="menu-item menu-item-about">
 
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+    <a href="/blogs/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+    <a href="/blogs/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/blogs/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
   </ul>
@@ -171,10 +171,10 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ayzp.github.io/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/">
+    <link itemprop="mainEntityOfPage" href="https://gitee.com/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/headphoto.png">
+      <meta itemprop="image" content="/blogs/images/headphoto.png">
       <meta itemprop="name" content="Ayzp">
       <meta itemprop="description" content="">
     </span>
@@ -245,14 +245,14 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><span class="line">function magnify(f1)</span><br><span class="line">%</span><br><span class="line">%magnify(f1)</span><br><span class="line">%</span><br><span class="line">%  Figure creates a magnification box when under the mouse</span><br><span class="line">%  position when a button is pressed.  Press &#39;+&#39;&#x2F;&#39;-&#39; while</span><br><span class="line">%  button pressed to increase&#x2F;decrease magnification. Press</span><br><span class="line">%  &#39;&gt;&#39;&#x2F;&#39;&lt;&#39; while button pressed to increase&#x2F;decrease box size.</span><br><span class="line">%  Hold &#39;Ctrl&#39; while clicking to leave magnification on figure.</span><br><span class="line">%</span><br><span class="line">%  Example:</span><br><span class="line">%     plot(1:100,randn(1,100),(1:300)&#x2F;3,rand(1,300)), grid on,</span><br><span class="line">%     magnify;</span><br><span class="line"></span><br><span class="line">% Rick Hindman - 7&#x2F;29&#x2F;04</span><br><span class="line"></span><br><span class="line">if (nargin &#x3D;&#x3D; 0), f1 &#x3D; gcf; end;</span><br><span class="line">set(f1, ...</span><br><span class="line">   &#39;WindowButtonDownFcn&#39;,  @ButtonDownCallback, ...</span><br><span class="line">   &#39;WindowButtonUpFcn&#39;, @ButtonUpCallback, ...</span><br><span class="line">   &#39;WindowButtonMotionFcn&#39;, @ButtonMotionCallback, ...</span><br><span class="line">   &#39;KeyPressFcn&#39;, @KeyPressCallback);</span><br><span class="line">return;</span><br><span class="line"></span><br><span class="line">function ButtonDownCallback(src,eventdata)</span><br><span class="line">   f1 &#x3D; src;</span><br><span class="line">   a1 &#x3D; get(f1,&#39;CurrentAxes&#39;);</span><br><span class="line">   a2 &#x3D; copyobj(a1,f1);</span><br><span class="line"></span><br><span class="line">   set(f1, ...</span><br><span class="line">      &#39;UserData&#39;,[f1,a1,a2], ...</span><br><span class="line">      &#39;Pointer&#39;,&#39;fullcrosshair&#39;, ...</span><br><span class="line">      &#39;CurrentAxes&#39;,a2);</span><br><span class="line">   set(a2, ...</span><br><span class="line">      &#39;UserData&#39;,[2,0.2], ...  %magnification, frame size</span><br><span class="line">      &#39;Color&#39;,get(a1,&#39;Color&#39;), ...</span><br><span class="line">      &#39;Box&#39;,&#39;on&#39;);</span><br><span class="line">   xlabel(&#39;&#39;); ylabel(&#39;&#39;); zlabel(&#39;&#39;); title(&#39;&#39;);</span><br><span class="line">   set(get(a2,&#39;Children&#39;), ...</span><br><span class="line">      &#39;LineWidth&#39;, 2);</span><br><span class="line">   set(a1, ...</span><br><span class="line">      &#39;Color&#39;,get(a1,&#39;Color&#39;)*0.95);</span><br><span class="line">   set(f1, ...</span><br><span class="line">      &#39;CurrentAxes&#39;,a1);</span><br><span class="line">   ButtonMotionCallback(src);</span><br><span class="line">return;</span><br><span class="line"></span><br><span class="line">function ButtonUpCallback(src,eventdata)</span><br><span class="line">   H &#x3D; get(src,&#39;UserData&#39;);</span><br><span class="line">   f1 &#x3D; H(1); a1 &#x3D; H(2); a2 &#x3D; H(3);</span><br><span class="line">   set(a1, ...</span><br><span class="line">      &#39;Color&#39;,get(a2,&#39;Color&#39;));</span><br><span class="line">   set(f1, ...</span><br><span class="line">      &#39;UserData&#39;,[], ...</span><br><span class="line">      &#39;Pointer&#39;,&#39;arrow&#39;, ...</span><br><span class="line">      &#39;CurrentAxes&#39;,a1);</span><br><span class="line">   if ~strcmp(get(f1,&#39;SelectionType&#39;),&#39;alt&#39;),</span><br><span class="line">      delete(a2);</span><br><span class="line">   end;</span><br><span class="line">return;</span><br><span class="line"></span><br><span class="line">function ButtonMotionCallback(src,eventdata)</span><br><span class="line">   H &#x3D; get(src,&#39;UserData&#39;);</span><br><span class="line">   if ~isempty(H)</span><br><span class="line">      f1 &#x3D; H(1); a1 &#x3D; H(2); a2 &#x3D; H(3);</span><br><span class="line">      a2_param &#x3D; get(a2,&#39;UserData&#39;);</span><br><span class="line">      f_pos &#x3D; get(f1,&#39;Position&#39;);</span><br><span class="line">      a1_pos &#x3D; get(a1,&#39;Position&#39;);</span><br><span class="line"></span><br><span class="line">      [f_cp, a1_cp] &#x3D; pointer2d(f1,a1);</span><br><span class="line"></span><br><span class="line">      set(a2,&#39;Position&#39;,[(f_cp.&#x2F;f_pos(3:4)) 0 0]+a2_param(2)*a1_pos(3)*[-1 -1 2 2]);</span><br><span class="line">      a2_pos &#x3D; get(a2,&#39;Position&#39;);</span><br><span class="line"></span><br><span class="line">   	set(a2,&#39;XLim&#39;,a1_cp(1)+(1&#x2F;a2_param(1))*(a2_pos(3)&#x2F;a1_pos(3))*diff(get(a1,&#39;XLim&#39;))*[-0.5 0.5]);</span><br><span class="line">   	set(a2,&#39;YLim&#39;,a1_cp(2)+(1&#x2F;a2_param(1))*(a2_pos(4)&#x2F;a1_pos(4))*diff(get(a1,&#39;YLim&#39;))*[-0.5 0.5]);</span><br><span class="line">   end;</span><br><span class="line">return;</span><br><span class="line"></span><br><span class="line">function KeyPressCallback(src,eventdata)</span><br><span class="line">   H &#x3D; get(gcf,&#39;UserData&#39;);</span><br><span class="line">   if ~isempty(H)</span><br><span class="line">      f1 &#x3D; H(1); a1 &#x3D; H(2); a2 &#x3D; H(3);</span><br><span class="line">      a2_param &#x3D; get(a2,&#39;UserData&#39;);</span><br><span class="line">      if (strcmp(get(f1,&#39;CurrentCharacter&#39;),&#39;+&#39;) | strcmp(get(f1,&#39;CurrentCharacter&#39;),&#39;&#x3D;&#39;))</span><br><span class="line">         a2_param(1) &#x3D; a2_param(1)*1.2;</span><br><span class="line">      elseif (strcmp(get(f1,&#39;CurrentCharacter&#39;),&#39;-&#39;) | strcmp(get(f1,&#39;CurrentCharacter&#39;),&#39;_&#39;))</span><br><span class="line">         a2_param(1) &#x3D; a2_param(1)&#x2F;1.2;</span><br><span class="line">      elseif (strcmp(get(f1,&#39;CurrentCharacter&#39;),&#39;&lt;&#39;) | strcmp(get(f1,&#39;CurrentCharacter&#39;),&#39;,&#39;))</span><br><span class="line">         a2_param(2) &#x3D; a2_param(2)&#x2F;1.2;</span><br><span class="line">      elseif (strcmp(get(f1,&#39;CurrentCharacter&#39;),&#39;&gt;&#39;) | strcmp(get(f1,&#39;CurrentCharacter&#39;),&#39;.&#39;))</span><br><span class="line">         a2_param(2) &#x3D; a2_param(2)*1.2;</span><br><span class="line">      end;</span><br><span class="line">      set(a2,&#39;UserData&#39;,a2_param);</span><br><span class="line">   	ButtonMotionCallback(src);</span><br><span class="line">   end;</span><br><span class="line">return;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">% Included for completeness (usually in own file)</span><br><span class="line">function [fig_pointer_pos, axes_pointer_val] &#x3D; pointer2d(fig_hndl,axes_hndl)</span><br><span class="line">%</span><br><span class="line">%pointer2d(fig_hndl,axes_hndl)</span><br><span class="line">%</span><br><span class="line">%	Returns the coordinates of the pointer (in pixels)</span><br><span class="line">%	in the desired figure (fig_hndl) and the coordinates</span><br><span class="line">%       in the desired axis (axes coordinates)</span><br><span class="line">%</span><br><span class="line">% Example:</span><br><span class="line">%  figure(1),</span><br><span class="line">%  hold on,</span><br><span class="line">%  for i &#x3D; 1:1000,</span><br><span class="line">%     [figp,axp]&#x3D;pointer2d;</span><br><span class="line">%     plot(axp(1),axp(2),&#39;.&#39;,&#39;EraseMode&#39;,&#39;none&#39;);</span><br><span class="line">%     drawnow;</span><br><span class="line">%  end;</span><br><span class="line">%  hold off</span><br><span class="line"></span><br><span class="line">% Rick Hindman - 4&#x2F;18&#x2F;01</span><br><span class="line"></span><br><span class="line">if (nargin &#x3D;&#x3D; 0), fig_hndl &#x3D; gcf; axes_hndl &#x3D; gca; end;</span><br><span class="line">if (nargin &#x3D;&#x3D; 1), axes_hndl &#x3D; get(fig_hndl,&#39;CurrentAxes&#39;); end;</span><br><span class="line"></span><br><span class="line">set(fig_hndl,&#39;Units&#39;,&#39;pixels&#39;);</span><br><span class="line"></span><br><span class="line">pointer_pos &#x3D; get(0,&#39;PointerLocation&#39;);	%pixels &#123;0,0&#125; lower left</span><br><span class="line">fig_pos &#x3D; get(fig_hndl,&#39;Position&#39;);	%pixels &#123;l,b,w,h&#125;</span><br><span class="line"></span><br><span class="line">fig_pointer_pos &#x3D; pointer_pos - fig_pos([1,2]);</span><br><span class="line">set(fig_hndl,&#39;CurrentPoint&#39;,fig_pointer_pos);</span><br><span class="line"></span><br><span class="line">if (isempty(axes_hndl)),</span><br><span class="line">	axes_pointer_val &#x3D; [];</span><br><span class="line">elseif (nargout &#x3D;&#x3D; 2),</span><br><span class="line">	axes_pointer_line &#x3D; get(axes_hndl,&#39;CurrentPoint&#39;);</span><br><span class="line">	axes_pointer_val &#x3D; sum(axes_pointer_line)&#x2F;2;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
 <h1 id="二-操作"><a href="#二-操作" class="headerlink" title="二 操作"></a>二 操作</h1><ol>
 <li>将magnify.m放置到主函数所在文件夹。</li>
-<li>绘制你的轨迹图像<br><img src="/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145509392.png" alt="在这里插入图片描述"></li>
-<li>紧接着在matlab工作区输入 magnify 然后回车键。<br><img src="/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/2020042114552287.png" alt="在这里插入图片描述"></li>
-<li>按住ctrl+鼠标左键，然后移动鼠标选择对应的放大区域。图片不能是编辑模式度！<br><img src="/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145559520.png" alt="在这里插入图片描述"></li>
-<li>ctrl+鼠标按住之后，ctrl按键可以松开了，但是鼠标左键别松开。问当你松开的时候，系统就自动给你选择好放大的图片了。可以按<code>&lt;</code>和<code>&gt;</code>调节图片大小。<br><img src="/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145612297.png" alt="在这里插入图片描述"></li>
-<li>重点来了。有些时候虽然选择了放大比例，但是怎么细致的调节那。可以通过放大和移动来解决这个问题。首先将图片调整为编辑模式。<br><img src="/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/2020042114572963.png" alt="在这里插入图片描述"></li>
-<li>然后鼠标左键选中放大的图片将其移回动到合适的位置。<br><img src="/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145813767.png" alt="在这里插入图片描述"></li>
-<li>然后选择pan按钮，将放大的图片调整到最佳位置即可。<br><img src="/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145830281.png" alt="在这里插入图片描述"></li>
-<li>完成效果图。<br><img src="/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/2020042114583989.png" alt="在这里插入图片描述"></li>
+<li>绘制你的轨迹图像<br><img src="/blogs/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145509392.png" alt="在这里插入图片描述"></li>
+<li>紧接着在matlab工作区输入 magnify 然后回车键。<br><img src="/blogs/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/2020042114552287.png" alt="在这里插入图片描述"></li>
+<li>按住ctrl+鼠标左键，然后移动鼠标选择对应的放大区域。图片不能是编辑模式度！<br><img src="/blogs/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145559520.png" alt="在这里插入图片描述"></li>
+<li>ctrl+鼠标按住之后，ctrl按键可以松开了，但是鼠标左键别松开。问当你松开的时候，系统就自动给你选择好放大的图片了。可以按<code>&lt;</code>和<code>&gt;</code>调节图片大小。<br><img src="/blogs/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145612297.png" alt="在这里插入图片描述"></li>
+<li>重点来了。有些时候虽然选择了放大比例，但是怎么细致的调节那。可以通过放大和移动来解决这个问题。首先将图片调整为编辑模式。<br><img src="/blogs/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/2020042114572963.png" alt="在这里插入图片描述"></li>
+<li>然后鼠标左键选中放大的图片将其移回动到合适的位置。<br><img src="/blogs/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145813767.png" alt="在这里插入图片描述"></li>
+<li>然后选择pan按钮，将放大的图片调整到最佳位置即可。<br><img src="/blogs/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/20200421145830281.png" alt="在这里插入图片描述"></li>
+<li>完成效果图。<br><img src="/blogs/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/2020042114583989.png" alt="在这里插入图片描述"></li>
 </ol>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>[1] xzw1781862471. 怎么将matlab得到的图局部放大呀. 百度问答. 2019. <a href="https://zhidao.baidu.com/question/554865980.html" target="_blank" rel="noopener">https://zhidao.baidu.com/question/554865980.html</a></p>
 
@@ -269,7 +269,7 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/alipay.png" alt="Ayzp Alipay">
+        <img src="/blogs/images/alipay.png" alt="Ayzp Alipay">
         <p>Alipay</p>
       </div>
 
@@ -285,7 +285,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="https://ayzp.github.io/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/" title="matlab局部放大曲线功能">https://ayzp.github.io/2020/04/21/matlab局部放大曲线功能/</a>
+    <a href="https://gitee.com/ayzp/blogs.git/2020/04/21/matlab%E5%B1%80%E9%83%A8%E6%94%BE%E5%A4%A7%E6%9B%B2%E7%BA%BF%E5%8A%9F%E8%83%BD/" title="matlab局部放大曲线功能">https://gitee.com/ayzp/blogs.git/2020/04/21/matlab局部放大曲线功能/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -296,7 +296,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"> <i class="fa fa-tag"></i> 工具</a>
+              <a href="/blogs/tags/%E5%B7%A5%E5%85%B7/" rel="tag"> <i class="fa fa-tag"></i> 工具</a>
           </div>
 
         
@@ -305,11 +305,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/04/20/%E7%AC%94%E8%AE%B0%E6%A8%A1%E6%9D%BF/" rel="prev" title="笔记模板">
+    <a href="/blogs/2020/04/20/%E7%AC%94%E8%AE%B0%E6%A8%A1%E6%9D%BF/" rel="prev" title="笔记模板">
       <i class="fa fa-chevron-left"></i> 笔记模板
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/04/23/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6logn%E6%80%8E%E4%B9%88%E6%9D%A5%E7%9A%84%E5%95%8A/" rel="next" title="时间复杂度logn怎么来的啊">
+    <a href="/blogs/2020/04/23/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6logn%E6%80%8E%E4%B9%88%E6%9D%A5%E7%9A%84%E5%95%8A/" rel="next" title="时间复杂度logn怎么来的啊">
       时间复杂度logn怎么来的啊 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -377,21 +377,21 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="Ayzp"
-      src="/images/headphoto.png">
+      src="/blogs/images/headphoto.png">
   <p class="site-author-name" itemprop="name">Ayzp</p>
   <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives/">
+          <a href="/blogs/archives/">
         
           <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-            <a href="/tags/">
+            <a href="/blogs/tags/">
           
         <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">tags</span></a>
@@ -413,7 +413,7 @@
       </span>
   </div>
   <div class="cc-license motion-element" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/blogs/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
 
 
@@ -492,21 +492,21 @@
   </div>
 
   
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
+  <script src="/blogs/lib/anime.min.js"></script>
+  <script src="/blogs/lib/velocity/velocity.min.js"></script>
+  <script src="/blogs/lib/velocity/velocity.ui.min.js"></script>
 
-<script src="/js/utils.js"></script>
+<script src="/blogs/js/utils.js"></script>
 
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
+<script src="/blogs/js/motion.js"></script>
 
 
-<script src="/js/next-boot.js"></script>
+<script src="/blogs/js/schemes/pisces.js"></script>
 
-<script src="/js/bookmark.js"></script>
+
+<script src="/blogs/js/next-boot.js"></script>
+
+<script src="/blogs/js/bookmark.js"></script>
 
 
 
