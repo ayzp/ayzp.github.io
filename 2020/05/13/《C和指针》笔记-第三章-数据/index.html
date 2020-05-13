@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ayzp.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="第3章 数据3.1 简介描述它数据的各种类型，描述它的特点以及如何申明，变量的三个属性——作用域、链接属性和存储类型  数据类型 整型 浮点型 指针 聚合类型（数组和结构等）   数据的声明： 说明符(一个或多个)    说明表达式列表   变量的三个属性 作用域：生命周期 链接属性：内部static、外部external、None 存储类型：静态、动态">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《C和指针》笔记-第三章-数据">
+<meta property="og:url" content="https://ayzp.github.io/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/index.html">
+<meta property="og:site_name" content="AYZP">
+<meta property="og:description" content="第3章 数据3.1 简介描述它数据的各种类型，描述它的特点以及如何申明，变量的三个属性——作用域、链接属性和存储类型  数据类型 整型 浮点型 指针 聚合类型（数组和结构等）   数据的声明： 说明符(一个或多个)    说明表达式列表   变量的三个属性 作用域：生命周期 链接属性：内部static、外部external、None 存储类型：静态、动态">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409123719300.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409123733710.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409154552327.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409162804953.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409162819680.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409155631367.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409155656880.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409163512899.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409152833306.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409154331775.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409161451697.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409161519504.png">
+<meta property="article:published_time" content="2020-05-13T13:36:10.000Z">
+<meta property="article:modified_time" content="2020-05-13T13:38:54.076Z">
+<meta property="article:author" content="Ayzp">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="《C和指针》">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ayzp.github.io/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409123719300.png">
+
+<link rel="canonical" href="https://ayzp.github.io/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>《C和指针》笔记-第三章-数据 | AYZP</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">AYZP</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-cv">
+
+    <a href="/CV/" rel="section"><i class="fa fa-address-card fa-fw"></i>CV</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ayzp.github.io/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/headphoto.png">
+      <meta itemprop="name" content="Ayzp">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AYZP">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          《C和指针》笔记-第三章-数据
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-13 21:36:10 / Modified: 21:38:54" itemprop="dateCreated datePublished" datetime="2020-05-13T21:36:10+08:00">2020-05-13</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>4.2k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>4 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="第3章-数据"><a href="#第3章-数据" class="headerlink" title="第3章 数据"></a>第3章 数据</h1><h2 id="3-1-简介"><a href="#3-1-简介" class="headerlink" title="3.1 简介"></a>3.1 简介</h2><p>描述它数据的各种类型，描述它的特点以及如何申明，变量的三个属性——作用域、链接属性和存储类型</p>
+<ul>
+<li>数据类型<ul>
+<li>整型</li>
+<li>浮点型</li>
+<li>指针</li>
+<li>聚合类型（数组和结构等）</li>
+</ul>
+</li>
+<li>数据的声明：<ul>
+<li>说明符(一个或多个)    说明表达式列表</li>
+</ul>
+</li>
+<li>变量的三个属性<ul>
+<li>作用域：生命周期</li>
+<li>链接属性：内部static、外部external、None</li>
+<li>存储类型：静态、动态</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+<h3 id="3-1-1-基本数据类型"><a href="#3-1-1-基本数据类型" class="headerlink" title="3.1.1 基本数据类型"></a>3.1.1 基本数据类型</h3><h4 id="A-整型家族"><a href="#A-整型家族" class="headerlink" title="A 整型家族"></a>A 整型家族</h4><h5 id="A-1-整型基本信息"><a href="#A-1-整型基本信息" class="headerlink" title="A.1 整型基本信息"></a>A.1 整型基本信息</h5><p>包括：字符char、短整型short、整型int和长整型long，分别分为有符号(signed)和无符号(unsigned)</p>
+<p>规定整型值相互之间大小的规则：<strong>长整型至少应该和整型一样长，而整型至少应该和短整型一样长</strong></p>
+<p><img src="/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409123719300.png" alt="image-20200409123719300"></p>
+<p><img src="/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409123733710.png" alt="image-20200409123733710"></p>
+<h5 id="A-2-整型字面值"><a href="#A-2-整型字面值" class="headerlink" title="A.2 整型字面值"></a>A.2 整型字面值</h5><p>字面值(literal)<sup><a href="#fn_1" id="reffn_1">1</a></sup>是字面值常量的缩写——这是一种变体，指定了自身的值，并且不允许发生改变。就是<code>const</code>啦。</p>
+<p>字符长两难。它们的类型总是int。你不能再它们后面添加unsigned或long后缀。字符常量就是一个用单引号包围起来的单个字符（或字符转义序列）：<code>&#39;M&#39;</code> <code>\n</code>  </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//对于字符运算，不合适的代码</span></span><br><span class="line">value = value - <span class="number">40</span>;</span><br><span class="line">value = value - \<span class="number">60</span>;</span><br><span class="line"><span class="comment">//合适的代码</span></span><br><span class="line">value = value - <span class="string">'0'</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="A-3-枚举类型"><a href="#A-3-枚举类型" class="headerlink" title="A.3 枚举类型"></a>A.3 枚举类型</h5><p>枚举(enumerated)类型就是指它的值为符号常量而不是字面值的类型：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> &#123; CUP, PINT, QUART, HALF_GALLON, GALLON&#125;</span><br><span class="line">	milk_jug, gas_can, medicine_bottle;</span><br></pre></td></tr></table></figure>
+<p>这种类型的变量实际上以整型的方式存储，这些符号名的实际值都是整型值。这里CUP是0，PINT是1，依次类推。</p>
+<p>注：最好不要把枚举变量同整数无差别地混合在一起使用。</p>
+<h5 id="A-3-浮点类型"><a href="#A-3-浮点类型" class="headerlink" title="A.3 浮点类型"></a>A.3 浮点类型</h5><p><strong>所有浮点类型至少能够容纳从10^-37^到10^37^之间的任何值</strong></p>
+<p>浮点类型除了long double之外，short、signed、unsigned都是不可用。</p>
+<h5 id="A-4-指针"><a href="#A-4-指针" class="headerlink" title="A.4 指针"></a>A.4 指针</h5><p>通过地址而不是名字来访问数据的想法常常会引起混淆。事实上你不该被搞混，因为生活中，很多东西都是这样大的。比如用门牌号码来标识一条街道上的房子就是如此，没有人会把房子和门牌号码和房子里面的东西搞混。</p>
+<p>变量的值存储于计算机的内存中，每个变量都占据一个特定的位置。每个位置包含一个值，这和它的地址是<strong>独立且显著不同的</strong>，即使它们都是数字。</p>
+<h6 id="字符串常量-string-literal"><a href="#字符串常量-string-literal" class="headerlink" title="字符串常量(string literal)"></a>字符串常量(string literal)</h6><p>C语言不存在字符串类型，但是C语言提供了字符串常量。</p>
+<p>C语言存在字符串的概念：它就是一串以<code>NUL</code>字节结尾的零个或多个字符。之所以选择NUL作为字符串的终止符，是因为它不是一个可打印的字符。</p>
+<p><strong>之所以把字符串常量和指针放在一起讨论，是因为在程序中使用字符串常量会生成一个“指向字符的常量指针”</strong>。当一个字符串常量出现于一个表达式时，表达式使用的值就是这些字符存储的<strong>地址</strong>，而不是这些字符本身。因此，你可以把字符串常量赋值给一个“指向字符的指针”，后者指向这些字符所存储的地址。<strong>但是，你不能把字符串常量赋值给一个字符数组，因为字符串常量的直接值是一个指针，而不是这些字符本身。</strong></p>
+<h3 id="3-1-2-基本声明"><a href="#3-1-2-基本声明" class="headerlink" title="3.1.2 基本声明"></a>3.1.2 基本声明</h3><p><em>说明符(一个或多个)  声明表达式列表</em></p>
+<p><strong>说明符</strong>包含了一些关键字，用于描述被声明的标识符的基本类型。说明符也可以用于改变标识符的缺省存储类型和作用域。</p>
+<h4 id="A-初始化"><a href="#A-初始化" class="headerlink" title="A 初始化"></a>A 初始化</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> j = <span class="number">15</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="B-声明简单数组"><a href="#B-声明简单数组" class="headerlink" title="B 声明简单数组"></a>B 声明简单数组</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> values[<span class="number">20</span>];</span><br></pre></td></tr></table></figure>
+<h4 id="C-声明指针"><a href="#C-声明指针" class="headerlink" title="C 声明指针"></a>C 声明指针</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *a; <span class="comment">//这条语句表示表达式*a产生的结果类型是int</span></span><br></pre></td></tr></table></figure>
+<p>知道了<em>操作符执行的是<em>*间接访问操作</em></em>以后，我们可以推断a肯定是一个指向int的指针。</p>
+<h4 id="D-typedef"><a href="#D-typedef" class="headerlink" title="D typedef"></a>D typedef</h4><p>使用<code>typedef</code>而不是#define来创建新的类型名。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">char</span> *ptr_to_char; <span class="comment">//这个声明把标识符ptr_to_char作为指向字符的指针类型的新名字。</span></span><br><span class="line">ptr_to_char a; <span class="comment">//声明a是一个指向字符的指针</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-1-3-常量"><a href="#3-1-3-常量" class="headerlink" title="3.1.3 常量"></a>3.1.3 常量</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> <span class="keyword">const</span> a;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> a;</span><br></pre></td></tr></table></figure>
+<p>当指针变量碰到常量</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *pi; <span class="comment">//pi是一个指向整型的指针</span></span><br><span class="line"><span class="keyword">int</span> <span class="keyword">const</span> *pi; <span class="comment">//指向整型常量的指针，可以修改指针的值，但你不能修改它所指向的值</span></span><br><span class="line"><span class="keyword">int</span> * <span class="keyword">const</span> cpi; <span class="comment">//pci为一个指向整型的常量指针。此时指针是常量，它的值无法修改，但你可以修改它所指向的整型的值</span></span><br><span class="line"><span class="keyword">int</span> <span class="keyword">const</span> * <span class="keyword">const</span> cpci; <span class="comment">//指针本身和它所指向的值都是常量，不允许修改</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-1-4-作用域"><a href="#3-1-4-作用域" class="headerlink" title="3.1.4 作用域"></a>3.1.4 作用域</h3><p>编译器可以确认4种不同类型的作用域：</p>
+<ul>
+<li>文本作用域</li>
+<li>函数作用域</li>
+<li>代码块作用域</li>
+<li>原型作用域：函数原型申明中使用</li>
+</ul>
+<h4 id="A-代码块作用域"><a href="#A-代码块作用域" class="headerlink" title="A 代码块作用域"></a>A 代码块作用域</h4><p><img src="/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409154552327.png" alt="image-20200409154552327"></p>
+<p>如果内层代码块有一个标识符的名字与外层代码块的一个标识符同名，<strong>内层的那个标识符就将隐藏外层的标识符</strong>——外层的那个标识符无法在内层代码块中通过名字访问。<strong>声明9的f和声明6的 f是不同的变量，后者无法在内层代码块中通过名字来访问</strong></p>
+<h4 id="B-文件作用域"><a href="#B-文件作用域" class="headerlink" title="B 文件作用域"></a>B 文件作用域</h4><p>任何在所有代码块之外声明的标识符都具有<strong>文件作用域</strong>(file scope)，它表示从标识符从它们的声明之处直到它所在的源文件结尾处都是可以访问的。<strong>图3.1中的声明1和声明2就是这一类</strong></p>
+<h4 id="C-原型作用域"><a href="#C-原型作用域" class="headerlink" title="C 原型作用域"></a>C 原型作用域</h4><p><strong>原型作用域</strong>只适用于函数原型中声明的参数，图3.1中对的<strong>声明3和声明8</strong>。在原型中，参数可以没有名字。</p>
+<h4 id="D-函数作用域"><a href="#D-函数作用域" class="headerlink" title="D 函数作用域"></a>D 函数作用域</h4><p>只适用于语句标签，语句标签用于goto语句</p>
+<h3 id="3-1-5-链接属性"><a href="#3-1-5-链接属性" class="headerlink" title="3.1.5 链接属性"></a>3.1.5 链接属性</h3><p>链接属性——external(外部)、internal(内部)和none(无)</p>
+<p>属于internal链接属性的标识符在同一个源文件内的所有声明中都指同一个实体，但位于不同源文件的多个声明则分属不同的实体。external链接属性的标识符不论声明多少次，位于多个源文件都表示同一个实体。</p>
+<p>关键字<code>extern</code>和<code>static</code>用于在声明中修改标识符的链接属性。</p>
+<h3 id="3-1-6-存储类型"><a href="#3-1-6-存储类型" class="headerlink" title="3.1.6 存储类型"></a>3.1.6 存储类型</h3><p>存储变量的地方：普通内存、运行时堆栈、硬件寄存器。</p>
+<p>变量的缺省存储类型取决于它的声明位置，凡是在任何代码块之外声明的变量总是存储于静态内存中，也就是不属于堆栈的内存，这类变量称为<strong>静态(static)变量</strong>。静态变量在程序运行之前创建，始终保持原先的值，除非给它赋一个不同的值或者程序结束。</p>
+<p>代码块内部声明的变量缺省存储类型是自动的(automatic)，也就是说它存储于堆栈中，称为auto变量。代码执行完后就消失。</p>
+<p>如果给它加上关键字<code>static</code>，可以使它的存储类型从自动变为静态。注。修改变量的存储类型并不表示修改该变量的作用域，它仍然只能在该代码块内部按名字访问。</p>
+<h3 id="3-1-7-static关键字"><a href="#3-1-7-static关键字" class="headerlink" title="3.1.7 static关键字"></a>3.1.7 static关键字</h3><p><img src="/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409162804953.png" alt="image-20200409162804953"></p>
+<p><img src="/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409162819680.png" alt="image-20200409162819680"></p>
+<h3 id="3-1-8-作用域、存储类型示例"><a href="#3-1-8-作用域、存储类型示例" class="headerlink" title="3.1.8 作用域、存储类型示例"></a>3.1.8 作用域、存储类型示例</h3><p><img src="/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409155631367.png" alt="image-20200409155631367"></p>
+<p><img src="/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409155656880.png" alt="image-20200409155656880"></p>
+<h3 id="3-1-8-external"><a href="#3-1-8-external" class="headerlink" title="3.1.8 external"></a>3.1.8 external</h3><p>具有external链接属性的实体在其他语言的术语里称为全局(global)实体，所有源文件中的所有函数均可以访问它。只要变量并非声明于代码块或函数定义内部，它在缺省情况下的链接属性即为external。如果一个变量声明于代码块内部，在它前面添加extern关键字将使它所引用的是全局变量而非局部变量。</p>
+<p>具有external链接属性的实体总是具有静态存储类型。全局变量在程序开始执行前创建，并在程序整个执行过程中始终存在。从属于函数的局部变量在函数开始执行时创建，在函数执行完毕后销毁，但用于执行函数的机器指令在程序的生命期内一直存在。</p>
+<h3 id="3-1-9-总结"><a href="#3-1-9-总结" class="headerlink" title="3.1.9 总结"></a>3.1.9 总结</h3><p><img src="/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409163512899.png" alt="image-20200409163512899"></p>
+<blockquote id="fn_1">
+<sup>1</sup>. 在本书中，literal这个词有时翻译为字面值，有时翻译为常量，它们的含义相同，只是表达的习惯不一。其中，string literal和char literal分别翻译wie字符串常量和字符常量，其他的literal一般翻译为字面值<a href="#reffn_1" title="Jump back to footnote [1] in the text."> &#8617;</a>
+</blockquote>
+<h2 id="3-2-收获"><a href="#3-2-收获" class="headerlink" title="3.2 收获"></a>3.2 收获</h2><h3 id="3-2-1-字符"><a href="#3-2-1-字符" class="headerlink" title="3.2.1 字符"></a>3.2.1 字符</h3><p>尽管char类型变量的目的是为了让它们容纳字符型值，但字符在本质上是小整型值。缺省的char要么是signed char，要么是unsigned char，这取决于编译器。</p>
+<ul>
+<li>提示：当可移植问题比较重要时，字符是unsigned还是signed就会带来两难的境地。最佳妥协方案就是把存储于char型变量的值限制在signed char和unsigned char的交集内。如ASCII码</li>
+</ul>
+<h3 id="3-2-2-字符串常量修改"><a href="#3-2-2-字符串常量修改" class="headerlink" title="3.2.2 字符串常量修改"></a>3.2.2 字符串常量修改</h3><p>许多编译器都允许程序改变字符串常量（因为K&amp;R C清楚地表明具有相同的值的不同字符串常量在内存中是分开存储的）。</p>
+<p>但是不推荐修改，因为如果对一个字符串常量进行修改，其效果是未定义的。</p>
+<p>如果需要修改字符串，请<strong>把它存储于数组中</strong>。</p>
+<h3 id="3-2-3-数组下标检测"><a href="#3-2-3-数组下标检测" class="headerlink" title="3.2.3 数组下标检测"></a>3.2.3 数组下标检测</h3><p>如果下标值是从那些已知是<strong>正确的值计算</strong>得来， 那么就无需检查它的值。如果一个用作下标的值是<strong>根据某种方法从用户愉入的数据</strong>产生而来的， 那么在使用它之前必须进行检测， 确保它们位于有效的范围之内。</p>
+<h3 id="3-2-4-指针声明"><a href="#3-2-4-指针声明" class="headerlink" title="3.2.4 指针声明"></a>3.2.4 指针声明</h3><p>声明指针变量时采用容易误导的写法：</p>
+<p>在指针声明的时候，不要这样写成<code>int* a</code>。</p>
+<p><img src="/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409152833306.png" alt="image-20200409152833306"></p>
+<p><strong>难怪昨天的myLinkedList * a, b, c中只有a是指向结构体的指针，而b，c是结构体。</strong></p>
+<p><strong>警告</strong>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 它声明了一个指针，并用一个字符串常量对其进行初始化：</span></span><br><span class="line"><span class="keyword">char</span> *message = <span class="string">"Hello world"</span>;</span><br><span class="line"><span class="comment">// 这条语句把message声明为一个指向字符的指针，并用字符串常量中第1个字符的地址对该指针进行初始化</span></span><br></pre></td></tr></table></figure>
+<p>这种类型的声明所面临的一个危险是你容易误解它的意思。在前面一个声明中，看上去初始值似乎是赋给表达式*message，事实上它是赋给message本身的，换句话说，前面一个声明相当于：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *message;</span><br><span class="line">message = <span class="string">"Hello world!"</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-5-什么时候用-define不用const"><a href="#3-2-5-什么时候用-define不用const" class="headerlink" title="3.2.5 什么时候用#define不用const"></a>3.2.5 什么时候用#define不用const</h3><p>const也不是一直比#define要好，使用”名字常量“的地方，用#define要好，const变量只能用于允许使用变量的地方.</p>
+<p><img src="/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409154331775.png" alt="image-20200409154331775"></p>
+<h3 id="3-2-6-避免在嵌套的代码块中出现相同的变量名"><a href="#3-2-6-避免在嵌套的代码块中出现相同的变量名" class="headerlink" title="3.2.6 避免在嵌套的代码块中出现相同的变量名"></a>3.2.6 避免在嵌套的代码块中出现相同的变量名</h3><h3 id="3-2-7-初始化"><a href="#3-2-7-初始化" class="headerlink" title="3.2.7 初始化"></a>3.2.7 初始化</h3><p><img src="/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409161451697.png" alt="image-20200409161451697"></p>
+<p>静态变量的初始化，初始化时已经提前放好了数据于执行过程中欲调用位置。</p>
+<p><img src="/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/image-20200409161519504.png" alt="image-20200409161519504"></p>
+<ul>
+<li>自动变量的初始化较之赋值语句效率并无提高。除了声明为const的变量之外，在声明变量的同时进行初始化和先声明后赋值只有风格之差，并无效率之别</li>
+<li>其次，这条隐式的赋值语句使自动变量在程序执行到它们所声明的函数（或代码块）时，<strong>每次都将重新初始化</strong>。这个行为与静态变量大不相同，<strong>后者只是在程序开始执行前初始化一次</strong>。</li>
+<li>初始化在运行时执行，你可以用任何表达式作为初始化值：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">func</span><span class="params">( <span class="keyword">int</span> a )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> b = a + <span class="number">3</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>除非你对自动变量进行显式的初始化，否则当自动变量创建时，它们的值总是垃圾值。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Ayzp Alipay">
+        <p>Alipay</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Ayzp
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://ayzp.github.io/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/" title="《C和指针》笔记-第三章-数据">https://ayzp.github.io/2020/05/13/《C和指针》笔记-第三章-数据/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"> <i class="fa fa-tag"></i> C</a>
+              <a href="/tags/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B/" rel="tag"> <i class="fa fa-tag"></i> 《C和指针》</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E8%AF%AD%E5%8F%A5/" rel="prev" title="《C和指针》笔记-第四章-语句">
+      <i class="fa fa-chevron-left"></i> 《C和指针》笔记-第四章-语句
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第3章-数据"><span class="nav-number">1.</span> <span class="nav-text">第3章 数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-简介"><span class="nav-number">1.1.</span> <span class="nav-text">3.1 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1-基本数据类型"><span class="nav-number">1.1.1.</span> <span class="nav-text">3.1.1 基本数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-整型家族"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">A 整型家族</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#A-1-整型基本信息"><span class="nav-number">1.1.1.1.1.</span> <span class="nav-text">A.1 整型基本信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#A-2-整型字面值"><span class="nav-number">1.1.1.1.2.</span> <span class="nav-text">A.2 整型字面值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#A-3-枚举类型"><span class="nav-number">1.1.1.1.3.</span> <span class="nav-text">A.3 枚举类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#A-3-浮点类型"><span class="nav-number">1.1.1.1.4.</span> <span class="nav-text">A.3 浮点类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#A-4-指针"><span class="nav-number">1.1.1.1.5.</span> <span class="nav-text">A.4 指针</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#字符串常量-string-literal"><span class="nav-number">1.1.1.1.5.1.</span> <span class="nav-text">字符串常量(string literal)</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-2-基本声明"><span class="nav-number">1.1.2.</span> <span class="nav-text">3.1.2 基本声明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-初始化"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">A 初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-声明简单数组"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">B 声明简单数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-声明指针"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">C 声明指针</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#D-typedef"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">D typedef</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-3-常量"><span class="nav-number">1.1.3.</span> <span class="nav-text">3.1.3 常量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-4-作用域"><span class="nav-number">1.1.4.</span> <span class="nav-text">3.1.4 作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-代码块作用域"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">A 代码块作用域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-文件作用域"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">B 文件作用域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-原型作用域"><span class="nav-number">1.1.4.3.</span> <span class="nav-text">C 原型作用域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#D-函数作用域"><span class="nav-number">1.1.4.4.</span> <span class="nav-text">D 函数作用域</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-5-链接属性"><span class="nav-number">1.1.5.</span> <span class="nav-text">3.1.5 链接属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-6-存储类型"><span class="nav-number">1.1.6.</span> <span class="nav-text">3.1.6 存储类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-7-static关键字"><span class="nav-number">1.1.7.</span> <span class="nav-text">3.1.7 static关键字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-8-作用域、存储类型示例"><span class="nav-number">1.1.8.</span> <span class="nav-text">3.1.8 作用域、存储类型示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-8-external"><span class="nav-number">1.1.9.</span> <span class="nav-text">3.1.8 external</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-9-总结"><span class="nav-number">1.1.10.</span> <span class="nav-text">3.1.9 总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-收获"><span class="nav-number">1.2.</span> <span class="nav-text">3.2 收获</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-字符"><span class="nav-number">1.2.1.</span> <span class="nav-text">3.2.1 字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-字符串常量修改"><span class="nav-number">1.2.2.</span> <span class="nav-text">3.2.2 字符串常量修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-数组下标检测"><span class="nav-number">1.2.3.</span> <span class="nav-text">3.2.3 数组下标检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-4-指针声明"><span class="nav-number">1.2.4.</span> <span class="nav-text">3.2.4 指针声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-5-什么时候用-define不用const"><span class="nav-number">1.2.5.</span> <span class="nav-text">3.2.5 什么时候用#define不用const</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-6-避免在嵌套的代码块中出现相同的变量名"><span class="nav-number">1.2.6.</span> <span class="nav-text">3.2.6 避免在嵌套的代码块中出现相同的变量名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-7-初始化"><span class="nav-number">1.2.7.</span> <span class="nav-text">3.2.7 初始化</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ayzp"
+      src="/images/headphoto.png">
+  <p class="site-author-name" itemprop="name">Ayzp</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ayzp" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ayzp" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1922428186@qq.com" title="E-Mail → mailto:1922428186@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/808fb7830936" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;808fb7830936" rel="noopener" target="_blank"><i class="fa fa-heartbeat fa-fw"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/ALexander_Monster" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;ALexander_Monster" rel="noopener" target="_blank"><i class="fa fa-book fa-fw"></i>CSDN</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YZP</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">20k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">18 mins.</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
