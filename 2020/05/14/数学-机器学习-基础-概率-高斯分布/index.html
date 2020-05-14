@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ayzp.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="二 数学基础-概率-高斯分布2.1 思维导图简述 数学基础-高斯分布思维导图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数学-机器学习-基础-概率-高斯分布">
+<meta property="og:url" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/index.html">
+<meta property="og:site_name" content="AYZP">
+<meta property="og:description" content="二 数学基础-概率-高斯分布2.1 思维导图简述 数学基础-高斯分布思维导图">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514211956625.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514212723178.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514212511527.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514084156287.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83MLE-1.jpg">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514084800553.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514212441797.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514101041960.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514101917391.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514103348137.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514140512122.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514141633163.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514141746609.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514212612630.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514212338917.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514142223110.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514142428577.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83-%E5%B1%80%E9%99%90%E6%80%A7-1.jpg">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514104953725.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83-%E8%BE%B9%E7%BC%98%E6%A6%82%E7%8E%87%E4%BB%A5%E5%8F%8A%E6%9D%A1%E4%BB%B6%E6%A6%82%E7%8E%87-1.jpg">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83-%E8%BE%B9%E7%BC%98%E6%A6%82%E7%8E%87%E4%BB%A5%E5%8F%8A%E6%9D%A1%E4%BB%B6%E6%A6%82%E7%8E%87-2.jpg">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83-%E8%81%94%E5%90%88%E6%A6%82%E7%8E%87%E5%AF%86%E5%BA%A6-1.jpg">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514105057312.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83-%E4%BB%8E%E6%A6%82%E7%8E%87%E8%A7%92%E5%BA%A6%E8%A7%82%E5%AF%9F.jpg">
+<meta property="article:published_time" content="2020-05-14T13:18:07.000Z">
+<meta property="article:modified_time" content="2020-05-14T13:29:49.814Z">
+<meta property="article:author" content="Ayzp">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83.png">
+
+<link rel="canonical" href="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>数学-机器学习-基础-概率-高斯分布 | AYZP</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">AYZP</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-cv">
+
+    <a href="/CV/" rel="section"><i class="fa fa-address-card fa-fw"></i>CV</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/headphoto.png">
+      <meta itemprop="name" content="Ayzp">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AYZP">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数学-机器学习-基础-概率-高斯分布
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-14 21:18:07 / Modified: 21:29:49" itemprop="dateCreated datePublished" datetime="2020-05-14T21:18:07+08:00">2020-05-14</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>1k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="二-数学基础-概率-高斯分布"><a href="#二-数学基础-概率-高斯分布" class="headerlink" title="二 数学基础-概率-高斯分布"></a>二 数学基础-概率-高斯分布</h1><h2 id="2-1-思维导图简述"><a href="#2-1-思维导图简述" class="headerlink" title="2.1 思维导图简述"></a>2.1 思维导图简述</h2><p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/数学基础-高斯分布.png" alt="数学基础-高斯分布"></p>
+<p><a href="https://naotu.baidu.com/file/8a930174f5e1d74b5358aac5e0cf8ff7" target="_blank" rel="noopener">数学基础-高斯分布思维导图</a></p>
+<a id="more"></a>
+<h2 id="2-2-内容"><a href="#2-2-内容" class="headerlink" title="2.2 内容"></a>2.2 内容</h2><h3 id="2-2-1-高斯分布的最大似然估计"><a href="#2-2-1-高斯分布的最大似然估计" class="headerlink" title="2.2.1 高斯分布的最大似然估计"></a>2.2.1 高斯分布的最大似然估计</h3><h4 id="A-已知"><a href="#A-已知" class="headerlink" title="A 已知"></a>A 已知</h4><p>数据条件：<script type="math/tex">x_{i}</script>是<script type="math/tex">p*1维</script>的列向量，代表一组数据。<script type="math/tex">X</script>是N*p维矩阵，表示N组数据。</p>
+<p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514211956625.png" alt="image-20200514211956625"></p>
+<p>高斯分布：<br>一维高斯分布（以一维高斯分布为例）</p>
+<p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514212723178.png" alt="image-20200514212723178"></p>
+<p>多维高斯分布</p>
+<p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514212511527.png" alt="image-20200514212511527"></p>
+<h4 id="B-求最大似然估计MLE"><a href="#B-求最大似然估计MLE" class="headerlink" title="B 求最大似然估计MLE"></a>B 求最大似然估计MLE</h4><p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514084156287.png" alt="image-20200514084156287"></p>
+<h4 id="C-解"><a href="#C-解" class="headerlink" title="C 解"></a>C 解</h4><p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/高斯分布MLE-1.jpg" alt="高斯分布MLE-1"></p>
+<p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514084800553.png" alt="image-20200514084800553"></p>
+<h4 id="D-收获"><a href="#D-收获" class="headerlink" title="D 收获"></a>D 收获</h4><p>最大似然估计<code>MLE</code>: maximum likelihood estimation，由高斯提出，R.A Fisher发扬光大。</p>
+<p>MLE就是求使概率P(X|θ)取得最大值的θ是多少：</p>
+<p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514212441797.png" alt="image-20200514212441797"></p>
+<p>P(X|θ)是什么，P(X|θ)是指在θ发生时，X发生的概率</p>
+<p>不同的参数θ发生，会使得P(X|θ)的值不一样，当已知某个参数θ就使这个样本出现的概率最大，我们当然不会去选其他参数，所以干脆就选这个θ啦</p>
+<h3 id="2-2-2-高斯分布的最大似然估计无偏和有偏性"><a href="#2-2-2-高斯分布的最大似然估计无偏和有偏性" class="headerlink" title="2.2.2 高斯分布的最大似然估计无偏和有偏性"></a>2.2.2 高斯分布的最大似然估计无偏和有偏性</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514101041960.png" alt="image-20200514101041960" style="zoom: 33%;"></p>
+<p>高斯分布最大似然估计中，均值估计是无偏的，方差估计是有偏的。</p>
+<h4 id="A-已知："><a href="#A-已知：" class="headerlink" title="A 已知："></a>A 已知：</h4><p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514101917391.png" alt="image-20200514101917391"></p>
+<h4 id="B-求"><a href="#B-求" class="headerlink" title="B 求"></a>B 求</h4><p>最大似然估计的均值：<script type="math/tex">\mu _{MLE}</script></p>
+<p>最大似然估计的方差：<script type="math/tex">\sigma _{MLE}^2</script></p>
+<h4 id="C-解-1"><a href="#C-解-1" class="headerlink" title="C 解"></a>C 解</h4><p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514103348137.png" alt="image-20200514103348137"></p>
+<h4 id="D-收获-1"><a href="#D-收获-1" class="headerlink" title="D 收获"></a>D 收获</h4><p>高斯分布最大似然估计中，均值估计是无偏的，方差估计是有偏的。</p>
+<h3 id="2-2-3-从概率密度角度观察高斯分布"><a href="#2-2-3-从概率密度角度观察高斯分布" class="headerlink" title="2.2.3 从概率密度角度观察高斯分布"></a>2.2.3 从概率密度角度观察高斯分布</h3><h4 id="背景-1"><a href="#背景-1" class="headerlink" title="背景"></a>背景</h4><h5 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h5><p>从不一样的概率角度观察和分析高斯分布。发现</p>
+<p>二维高斯分布可以用平面上的不同的椭圆曲线来表达。</p>
+<p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514140512122.png" alt="image-20200514140512122" style="zoom: 50%;"></p>
+<h5 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h5><p>PDF：probability denstiy function 概率密度函数</p>
+<p>马氏距离：</p>
+<p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514141633163.png" alt="image-20200514141633163"></p>
+<p>欧式距离：马氏距离<code>Σ=1</code>就是欧式距离</p>
+<p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514141746609.png" alt="image-20200514141746609"></p>
+<h4 id="A-已知-1"><a href="#A-已知-1" class="headerlink" title="A 已知"></a>A 已知</h4><p>多维高斯分布的PDF为：</p>
+<p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514212612630.png" alt="image-20200514212612630"></p>
+<p>其中，<script type="math/tex">x \in {R^p}{\rm{,r}}{\rm{.v}}</script>，</p>
+<p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514212338917.png" alt="image-20200514212338917"></p>
+<h4 id="B-求-1"><a href="#B-求-1" class="headerlink" title="B 求"></a>B 求</h4><p>多维高斯分布的PDF中，只有<code>x</code>是自变量，<script type="math/tex">\mu和\Sigma</script>均是参数。</p>
+<p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514142223110.png" alt="image-20200514142223110"></p>
+<p>根据多维高斯分布PDF，求出多维高斯分布的数学表现形式。</p>
+<h4 id="C-解-2"><a href="#C-解-2" class="headerlink" title="C 解"></a>C 解</h4><p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514142428577.png" alt="image-20200514142428577"></p>
+<h3 id="2-2-4-高斯分布的局限性"><a href="#2-2-4-高斯分布的局限性" class="headerlink" title="2.2.4 高斯分布的局限性"></a>2.2.4 高斯分布的局限性</h3><h4 id="A-局限性"><a href="#A-局限性" class="headerlink" title="A 局限性"></a>A 局限性</h4><ol>
+<li>方差阵<code>Σ</code>是一个<code>p*p维</code>的对称矩阵，太难求了，计算量太大</li>
+</ol>
+<p><code>Σ</code>的参数个数是<code>(p*p-p)/2+p = (p*p+p)/2 = O(p^2)</code>。</p>
+<p>通过将<code>Σ</code>设置为<code>对角矩阵</code>可以缓解计算量</p>
+<ol>
+<li>只能处理，假设整个模型是高斯分布，但仅用一个高斯分布无法表达模型</li>
+</ol>
+<p>GMM中提出混合模型</p>
+<h4 id="B-完整过程"><a href="#B-完整过程" class="headerlink" title="B 完整过程"></a>B 完整过程</h4><p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/高斯分布-局限性-1.jpg" alt="高斯分布-局限性-1"></p>
+<p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514104953725.png" alt="image-20200514104953725"></p>
+<h3 id="2-2-5-求高斯分布的边缘概率以及条件概率"><a href="#2-2-5-求高斯分布的边缘概率以及条件概率" class="headerlink" title="2.2.5 求高斯分布的边缘概率以及条件概率"></a>2.2.5 求高斯分布的边缘概率以及条件概率</h3><p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/高斯分布-边缘概率以及条件概率-1.jpg" alt="高斯分布-边缘概率以及条件概率-1"></p>
+<p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/高斯分布-边缘概率以及条件概率-2.jpg" alt="高斯分布-边缘概率以及条件概率-2"></p>
+<h3 id="2-2-6-求高斯分布的联合概率分布"><a href="#2-2-6-求高斯分布的联合概率分布" class="headerlink" title="2.2.6 求高斯分布的联合概率分布"></a>2.2.6 求高斯分布的联合概率分布</h3><p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/高斯分布-联合概率密度-1.jpg" alt="高斯分布-联合概率密度-1"></p>
+<p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/image-20200514105057312.png" alt="image-20200514105057312"></p>
+<h2 id="2-3-问题"><a href="#2-3-问题" class="headerlink" title="2.3 问题"></a>2.3 问题</h2><h3 id="2-3-1-目前还无法完整脱稿推出高斯分布的全部特点。"><a href="#2-3-1-目前还无法完整脱稿推出高斯分布的全部特点。" class="headerlink" title="2.3.1 目前还无法完整脱稿推出高斯分布的全部特点。"></a>2.3.1 目前还无法完整脱稿推出高斯分布的全部特点。</h3><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>[1] shuhuai008. 【机器学习】【白板推导系列】【合集 1～23】. bilibili. 2019.<br><a href="https://www.bilibili.com/video/BV1aE411o7qd?p=1" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1aE411o7qd?p=1</a></p>
+<p>[2] 从概率密度角度观察高斯分布手稿</p>
+<p><img src="/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/高斯分布-从概率角度观察.jpg" alt="高斯分布-从概率角度观察"></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Ayzp Alipay">
+        <p>Alipay</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Ayzp
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://ayzp.github.io/2020/05/14/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80-%E6%A6%82%E7%8E%87-%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83/" title="数学-机器学习-基础-概率-高斯分布">https://ayzp.github.io/2020/05/14/数学-机器学习-基础-概率-高斯分布/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag"> <i class="fa fa-tag"></i> 数学</a>
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"> <i class="fa fa-tag"></i> 机器学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/13/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E6%8D%AE/" rel="prev" title="《C和指针》笔记-第三章-数据">
+      <i class="fa fa-chevron-left"></i> 《C和指针》笔记-第三章-数据
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#二-数学基础-概率-高斯分布"><span class="nav-number">1.</span> <span class="nav-text">二 数学基础-概率-高斯分布</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-思维导图简述"><span class="nav-number">1.1.</span> <span class="nav-text">2.1 思维导图简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-内容"><span class="nav-number">1.2.</span> <span class="nav-text">2.2 内容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-高斯分布的最大似然估计"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.2.1 高斯分布的最大似然估计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-已知"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">A 已知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-求最大似然估计MLE"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">B 求最大似然估计MLE</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-解"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">C 解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#D-收获"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">D 收获</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-高斯分布的最大似然估计无偏和有偏性"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2.2 高斯分布的最大似然估计无偏和有偏性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#背景"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-已知："><span class="nav-number">1.2.2.2.</span> <span class="nav-text">A 已知：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-求"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">B 求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-解-1"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">C 解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#D-收获-1"><span class="nav-number">1.2.2.5.</span> <span class="nav-text">D 收获</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-3-从概率密度角度观察高斯分布"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.2.3 从概率密度角度观察高斯分布</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#背景-1"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#结论"><span class="nav-number">1.2.3.1.1.</span> <span class="nav-text">结论</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#基础"><span class="nav-number">1.2.3.1.2.</span> <span class="nav-text">基础</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-已知-1"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">A 已知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-求-1"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">B 求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-解-2"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">C 解</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-4-高斯分布的局限性"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.2.4 高斯分布的局限性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-局限性"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">A 局限性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-完整过程"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">B 完整过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-5-求高斯分布的边缘概率以及条件概率"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.2.5 求高斯分布的边缘概率以及条件概率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-6-求高斯分布的联合概率分布"><span class="nav-number">1.2.6.</span> <span class="nav-text">2.2.6 求高斯分布的联合概率分布</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-问题"><span class="nav-number">1.3.</span> <span class="nav-text">2.3 问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-1-目前还无法完整脱稿推出高斯分布的全部特点。"><span class="nav-number">1.3.1.</span> <span class="nav-text">2.3.1 目前还无法完整脱稿推出高斯分布的全部特点。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">1.4.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ayzp"
+      src="/images/headphoto.png">
+  <p class="site-author-name" itemprop="name">Ayzp</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ayzp" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ayzp" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1922428186@qq.com" title="E-Mail → mailto:1922428186@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/808fb7830936" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;808fb7830936" rel="noopener" target="_blank"><i class="fa fa-heartbeat fa-fw"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/ALexander_Monster" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;ALexander_Monster" rel="noopener" target="_blank"><i class="fa fa-book fa-fw"></i>CSDN</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YZP</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">21k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">19 mins.</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
