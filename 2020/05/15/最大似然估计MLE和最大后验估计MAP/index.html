@@ -20,24 +20,25 @@
     var CONFIG = {"hostname":"ayzp.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="不哔哔，机器学习里的正则化，它是为了解决过拟合提出的。  一 背景正则化是为了解决过拟合问题而提出的。regularization，让它正常，不要那么不正常了，那么这个不正常体现在那里呢，目前[2020-5-15]来看，不就是它过拟合了，不像正常的那样了。">
+  <meta name="description" content="一 前言小伙为何会提出两个单词MLE和MAP呢。竟然是因为这….">
 <meta property="og:type" content="article">
-<meta property="og:title" content="机器学习中正则化与过拟合">
-<meta property="og:url" content="https://ayzp.github.io/2020/05/15/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E6%AD%A3%E5%88%99%E5%8C%96%E4%B8%8E%E8%BF%87%E6%8B%9F%E5%90%88/index.html">
+<meta property="og:title" content="最大似然估计MLE和最大后验估计MAP">
+<meta property="og:url" content="https://ayzp.github.io/2020/05/15/%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1MLE%E5%92%8C%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E4%BC%B0%E8%AE%A1MAP/index.html">
 <meta property="og:site_name" content="AYZP">
-<meta property="og:description" content="不哔哔，机器学习里的正则化，它是为了解决过拟合提出的。  一 背景正则化是为了解决过拟合问题而提出的。regularization，让它正常，不要那么不正常了，那么这个不正常体现在那里呢，目前[2020-5-15]来看，不就是它过拟合了，不像正常的那样了。">
+<meta property="og:description" content="一 前言小伙为何会提出两个单词MLE和MAP呢。竟然是因为这….">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E6%AD%A3%E5%88%99%E5%8C%96%E4%B8%8E%E8%BF%87%E6%8B%9F%E5%90%88/20200515165533639.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E6%AD%A3%E5%88%99%E5%8C%96%E4%B8%8E%E8%BF%87%E6%8B%9F%E5%90%88/20200515165533639-1589533922169.png">
-<meta property="article:published_time" content="2020-05-15T09:10:46.000Z">
-<meta property="article:modified_time" content="2020-05-15T09:13:24.143Z">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1MLE%E5%92%8C%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E4%BC%B0%E8%AE%A1MAP/20200515201211918.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1MLE%E5%92%8C%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E4%BC%B0%E8%AE%A1MAP/image-20200515164115594.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1MLE%E5%92%8C%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E4%BC%B0%E8%AE%A1MAP/image-20200515164313235.png">
+<meta property="article:published_time" content="2020-05-15T12:45:35.000Z">
+<meta property="article:modified_time" content="2020-05-15T12:51:22.050Z">
 <meta property="article:author" content="Ayzp">
 <meta property="article:tag" content="数学">
 <meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://ayzp.github.io/2020/05/15/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E6%AD%A3%E5%88%99%E5%8C%96%E4%B8%8E%E8%BF%87%E6%8B%9F%E5%90%88/20200515165533639.png">
+<meta name="twitter:image" content="https://ayzp.github.io/2020/05/15/%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1MLE%E5%92%8C%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E4%BC%B0%E8%AE%A1MAP/20200515201211918.png">
 
-<link rel="canonical" href="https://ayzp.github.io/2020/05/15/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E6%AD%A3%E5%88%99%E5%8C%96%E4%B8%8E%E8%BF%87%E6%8B%9F%E5%90%88/">
+<link rel="canonical" href="https://ayzp.github.io/2020/05/15/%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1MLE%E5%92%8C%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E4%BC%B0%E8%AE%A1MAP/">
 
 
 <script id="page-configurations">
@@ -50,7 +51,7 @@
   };
 </script>
 
-  <title>机器学习中正则化与过拟合 | AYZP</title>
+  <title>最大似然估计MLE和最大后验估计MAP | AYZP</title>
   
 
 
@@ -186,7 +187,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ayzp.github.io/2020/05/15/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E6%AD%A3%E5%88%99%E5%8C%96%E4%B8%8E%E8%BF%87%E6%8B%9F%E5%90%88/">
+    <link itemprop="mainEntityOfPage" href="https://ayzp.github.io/2020/05/15/%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1MLE%E5%92%8C%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E4%BC%B0%E8%AE%A1MAP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/headphoto.png">
@@ -199,7 +200,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          机器学习中正则化与过拟合
+          最大似然估计MLE和最大后验估计MAP
         </h1>
 
         <div class="post-meta">
@@ -210,7 +211,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-05-15 17:10:46 / Modified: 17:13:24" itemprop="dateCreated datePublished" datetime="2020-05-15T17:10:46+08:00">2020-05-15</time>
+              <time title="Created: 2020-05-15 20:45:35 / Modified: 20:51:22" itemprop="dateCreated datePublished" datetime="2020-05-15T20:45:35+08:00">2020-05-15</time>
             </span>
 
           
@@ -226,7 +227,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>966</span>
+              <span>1.6k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -245,33 +246,43 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <blockquote>
-<p>不哔哔，机器学习里的正则化，它是为了解决过拟合提出的。</p>
-</blockquote>
-<h1 id="一-背景"><a href="#一-背景" class="headerlink" title="一 背景"></a>一 背景</h1><p>正则化是为了解决过拟合问题而提出的。regularization，让它正常，不要那么不正常了，那么这个不正常体现在那里呢，目前[2020-5-15]来看，不就是它过拟合了，不像正常的那样了。</p>
+        <h1 id="一-前言"><a href="#一-前言" class="headerlink" title="一 前言"></a>一 前言</h1><p>小伙为何会提出两个单词<code>MLE</code>和<code>MAP</code>呢。竟然是因为这….</p>
 <a id="more"></a>
-<h1 id="二-过拟合"><a href="#二-过拟合" class="headerlink" title="二 过拟合"></a>二 过拟合</h1><p>过拟合是什么呢？<br>过拟合从字面意义上看，就是拟合过度了，什么才叫拟合过度呢？看下图。一个点，有好多情况，你得到的曲线，只适合某一种样本点，其他样本点适应性极差。</p>
-<p><img src="/2020/05/15/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E6%AD%A3%E5%88%99%E5%8C%96%E4%B8%8E%E8%BF%87%E6%8B%9F%E5%90%88/20200515165533639.png" alt="在这里插入图片描述"></p>
-<ul>
-<li>从数据角度分析：首先，$X$是样本数据阵，它是一个<code>N*P维</code>的矩阵，N表示的样本的数量，P维表示的是每一个样本的状态数，就是N个样本，每个样本是p维的。然后，理论上应该样本数<code>N</code>应该<code>远大于</code>样本的维数<code>P</code>，但是，实际中可能仅有几个样本，出现<code>N&lt;P</code>的情况，那么就会造成过拟合</li>
-<li>从数学角度分析：最小二乘法求得的$w=(X^TX)^{-1}X^TY$中式子$X^TX$可能是不可逆的，就会直接造成过拟合。</li>
-</ul>
-<p>解决过拟合的方法：</p>
-<ul>
-<li>增加样本数量</li>
-<li>特征选择/特征提取，实际就是降维，降低p的维数。<strong>PCA</strong></li>
-<li><strong>正则化</strong>，对w约束，改变<code>w的形式</code>，把$(X^{T}X)^{-1}$改造成一个绝对可逆的式子。</li>
-</ul>
-<p>正则化分为两种</p>
+<p>好吧，是因为不知道为何搞不懂这两个名词的意思。最早听到最大似然估计<code>MLE</code>是在考研数学里面，有一道<code>概率</code>题，要求一组数据的最大似然估计，然后强行记住了求法，具体的求法就是，现在也记不清了，讲个大概流程：</p>
+<blockquote>
 <ol>
-<li>L1 -&gt; Lasso</li>
-<li><strong>L2 -&gt; Ridge</strong><h1 id="三-过拟合Vs正则化"><a href="#三-过拟合Vs正则化" class="headerlink" title="三 过拟合Vs正则化"></a>三 过拟合Vs正则化</h1><strong>将不可逆变为可逆即为正则化</strong></li>
+<li>先把题目给的那组数中，每个数出现的概率和它们自己相乘，求出似然函数L(θ)</li>
+<li>然后加个log运算，变成log(L(θ))</li>
+<li>然后就是求导，令求导结果为0</li>
+<li>解出想要的参数θ</li>
 </ol>
-<p>为什么需要正则化，首先正则化出现的背景是最小二乘法$w=(X^TX)^{-1}X^TY$中式子$X^TX$可能是不可逆的，从数学角度分析就是<code>X</code>为<code>N*p</code>维的矩阵，<code>N</code>表示样本数，<code>p</code>是<code>Xi</code>的状态向量数，在实际应用中，可能测得的样本数很少，出现了<code>N&lt;P</code>的情况，即$X^TX$不可逆，那么w就求不来。</p>
-<p>这样不可逆会导致什么后果呢。答，会引起过拟合。因为如果样本数过少，那么拟合的方法就会有很多。出现错误的几率就会很高。</p>
-<p><img src="/2020/05/15/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E6%AD%A3%E5%88%99%E5%8C%96%E4%B8%8E%E8%BF%87%E6%8B%9F%E5%90%88/20200515165533639-1589533922169.png" alt="在这里插入图片描述"></p>
-<p>怎么解决这个问题提，答，引入正则化。正则化实际上就是给最小二乘法的损失函数(Loss Function)<code>L(w)</code>加一个框架，得到一个新的函数<code>J(w)</code>，其中$J(w)=L(w)+\lambda P(w)$。这样求出的<code>w</code>就会绝对可逆。</p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>[1] shuhuai008. 【机器学习】【白板推导系列】【合集 1～23】. bilibili. 2019.<br><a href="https://www.bilibili.com/video/BV1aE411o7qd?p=9" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1aE411o7qd?p=9</a></p>
+</blockquote>
+<p>这才讲到MLE的疑问来源，那么，MAP又是怎么相识的呢，说到这个<code>MAP</code>，我们好像在哪见过，我不记得了，记得那是一个前几个月的日子，我看机器学习视频的时候，老师讲到</p>
+<blockquote>
+<p>贝叶斯派，要用MAP求出想要的参数θ</p>
+</blockquote>
+<p>于是，MLE和MAP就这么进入了小伙的生活，并开始了一段迷茫的日子。时至今日，小伙在总结学习笔记的时候，她们就这么生生的又来了。小伙决定，写个文档，记录一下。</p>
+<h1 id="二-MLE"><a href="#二-MLE" class="headerlink" title="二 MLE"></a>二 MLE</h1><h2 id="2-1-简介"><a href="#2-1-简介" class="headerlink" title="2.1 简介"></a>2.1 简介</h2><p>极大似然估计方法（Maximum Likelihood Estimate，MLE）也称为最大概似估计或最大似然估计，是求估计的另一种方法，最大概似是1821年首先由德国数学家高斯（C. F. Gauss）提出，但是这个方法通常被归功于英国的统计学家。罗纳德·费希尔（R. A. Fisher）</p>
+<h2 id="2-2-用途"><a href="#2-2-用途" class="headerlink" title="2.2 用途"></a>2.2 用途</h2><p>用于求解未知常数参数θ，使得$logP(X|\theta)$取得最大值。式子为</p>
+<p><img src="/2020/05/15/%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1MLE%E5%92%8C%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E4%BC%B0%E8%AE%A1MAP/20200515201211918.png" alt="在这里插入图片描述"><br>最大似然估计就是求使$L(\theta )$最大的$\theta$是多少，具体方法就是利用求导的方法：</p>
+<script type="math/tex; mode=display">
+\frac{ {\partial L(\theta )}}{ {\partial \theta }} = 0</script><p>至于为什么加上<code>log</code>，因为一般$P(X|\theta)$是一个乘积的形式，加上<code>log</code>后，就可以变成累加的形式，简化计算。</p>
+<h1 id="三-MAP"><a href="#三-MAP" class="headerlink" title="三 MAP"></a>三 MAP</h1><h2 id="3-1-简介"><a href="#3-1-简介" class="headerlink" title="3.1 简介"></a>3.1 简介</h2><p>最大后验估计（maximum a posteriori probability estimate, 简称MAP）。</p>
+<h2 id="3-2-用途"><a href="#3-2-用途" class="headerlink" title="3.2 用途"></a>3.2 用途</h2><p>MAP常用于从贝叶斯角度估计求参数$\theta$。</p>
+<p>在贝叶斯角度下，参数$\theta$不再是一个常数，贝叶斯派设置的参数$\theta$是一个概率分布，它是有<code>先验知识p(θ)</code>的，并不像是频率派参数$\theta$是一个常数。贝叶斯派想要求出使得概率值最大的$\theta$，就需要借助<code>贝叶斯公式</code>进行硬算，在硬算的过程中，需要借助$\theta$的<code>先验知识</code>。最后<strong>要求</strong>得的那个概率值就是一个<code>后验概率</code>，那个后验概率是$P(\theta|y)$</p>
+<p>MAP: </p>
+<script type="math/tex; mode=display">
+{\theta _{MAX}} = \mathop {\arg \max }\limits_\theta  P(\theta |y)</script><p>而这个后验概率$P(\theta|y)$，需要通过贝叶斯公式来求：</p>
+<script type="math/tex; mode=display">
+P(\theta |y) = \frac{ {P(y|\theta )P(\theta )}}{ {P(y)}}</script><p>在这里，p(θ)是先验，是已知的，p(y|θ)也是可以求得的，p(y)是样本概率，是常量。然后MAP就能算出来了。</p>
+<h2 id="3-3-举个栗子："><a href="#3-3-举个栗子：" class="headerlink" title="3.3 举个栗子："></a>3.3 举个栗子：</h2><p>从贝叶斯角度看岭回归的最大后验估计。栗子的目的就是看一看MAP求解过程。</p>
+<h3 id="A-已知"><a href="#A-已知" class="headerlink" title="A 已知"></a>A 已知</h3><p><img src="/2020/05/15/%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1MLE%E5%92%8C%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E4%BC%B0%E8%AE%A1MAP/image-20200515164115594.png" alt="image-20200515164115594"></p>
+<h3 id="B-求"><a href="#B-求" class="headerlink" title="B 求"></a>B 求</h3><p>参数<code>w</code>的最大后验估计<code>MAP</code>。</p>
+<h3 id="C-解"><a href="#C-解" class="headerlink" title="C 解"></a>C 解</h3><p><img src="/2020/05/15/%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1MLE%E5%92%8C%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E4%BC%B0%E8%AE%A1MAP/image-20200515164313235.png" alt="image-20200515164313235"></p>
+<h1 id="四-MLE和MAP的相爱相杀"><a href="#四-MLE和MAP的相爱相杀" class="headerlink" title="四 MLE和MAP的相爱相杀"></a>四 MLE和MAP的相爱相杀</h1><ul>
+<li>MLE是概率角度求解未知常数参数θ</li>
+<li>MAP是贝叶斯角度求解未知概率分布参数θ<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1>[1] <a href="https://blog.csdn.net/liangjiubujiu/article/details/84871196" target="_blank" rel="noopener">https://blog.csdn.net/liangjiubujiu/article/details/84871196</a><br>[2] 百科百科. 极大似然估计. <a href="https://baike.baidu.com/item/%E6%9E%81%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1/3350286?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/%E6%9E%81%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1/3350286?fr=aladdin</a><br>[3] shuhuai008. 【机器学习】【白板推导系列】【合集 1～23】. bilibili. 2019.<br><a href="https://www.bilibili.com/video/BV1aE411o7qd?p=9" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1aE411o7qd?p=9</a></li>
+</ul>
 
     </div>
 
@@ -302,7 +313,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="https://ayzp.github.io/2020/05/15/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E6%AD%A3%E5%88%99%E5%8C%96%E4%B8%8E%E8%BF%87%E6%8B%9F%E5%90%88/" title="机器学习中正则化与过拟合">https://ayzp.github.io/2020/05/15/机器学习中正则化与过拟合/</a>
+    <a href="https://ayzp.github.io/2020/05/15/%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1MLE%E5%92%8C%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E4%BC%B0%E8%AE%A1MAP/" title="最大似然估计MLE和最大后验估计MAP">https://ayzp.github.io/2020/05/15/最大似然估计MLE和最大后验估计MAP/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -323,13 +334,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/05/15/hexo%E5%A4%8D%E6%9D%82latex%E5%85%AC%E5%BC%8F%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/" rel="prev" title="hexo复杂latex公式无法显示问题">
-      <i class="fa fa-chevron-left"></i> hexo复杂latex公式无法显示问题
+    <a href="/2020/05/15/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E6%AD%A3%E5%88%99%E5%8C%96%E4%B8%8E%E8%BF%87%E6%8B%9F%E5%90%88/" rel="prev" title="机器学习中正则化与过拟合">
+      <i class="fa fa-chevron-left"></i> 机器学习中正则化与过拟合
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/05/15/%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1MLE%E5%92%8C%E6%9C%80%E5%A4%A7%E5%90%8E%E9%AA%8C%E4%BC%B0%E8%AE%A1MAP/" rel="next" title="最大似然估计MLE和最大后验估计MAP">
-      最大似然估计MLE和最大后验估计MAP <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -388,7 +396,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-背景"><span class="nav-number">1.</span> <span class="nav-text">一 背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-过拟合"><span class="nav-number">2.</span> <span class="nav-text">二 过拟合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-过拟合Vs正则化"><span class="nav-number">3.</span> <span class="nav-text">三 过拟合Vs正则化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-前言"><span class="nav-number">1.</span> <span class="nav-text">一 前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-MLE"><span class="nav-number">2.</span> <span class="nav-text">二 MLE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-简介"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-用途"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 用途</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-MAP"><span class="nav-number">3.</span> <span class="nav-text">三 MAP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-简介"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-用途"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 用途</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-举个栗子："><span class="nav-number">3.3.</span> <span class="nav-text">3.3 举个栗子：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-已知"><span class="nav-number">3.3.1.</span> <span class="nav-text">A 已知</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B-求"><span class="nav-number">3.3.2.</span> <span class="nav-text">B 求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-解"><span class="nav-number">3.3.3.</span> <span class="nav-text">C 解</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-MLE和MAP的相爱相杀"><span class="nav-number">4.</span> <span class="nav-text">四 MLE和MAP的相爱相杀</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
