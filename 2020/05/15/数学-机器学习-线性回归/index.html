@@ -20,39 +20,39 @@
     var CONFIG = {"hostname":"ayzp.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="三 线性分类 Linear Regression  3.1 思维导图简述 数学基础-高斯分布思维导图">
+  <meta name="description" content="三 线性回归 Linear Regression  3.1 思维导图简述 数学基础-高斯分布思维导图">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数学-机器学习-线性分类">
-<meta property="og:url" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/index.html">
+<meta property="og:title" content="数学-机器学习-线性回归">
+<meta property="og:url" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/index.html">
 <meta property="og:site_name" content="AYZP">
-<meta property="og:description" content="三 线性分类 Linear Regression  3.1 思维导图简述 数学基础-高斯分布思维导图">
+<meta property="og:description" content="三 线性回归 Linear Regression  3.1 思维导图简述 数学基础-高斯分布思维导图">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/%E4%B8%89+%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E5%B7%B2%E7%9F%A5.jpg">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E5%8F%8A%E5%85%B6%E5%87%A0%E4%BD%95%E6%84%8F%E4%B9%89-2.jpg">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515110857430.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515113602890.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515114002142.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95-%E6%A6%82%E7%8E%87%E8%A7%86%E8%A7%92-%E9%AB%98%E6%96%AF%E5%99%AA%E5%A3%B0-MLE-1-1589548043360.jpg">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95-%E6%A6%82%E7%8E%87%E8%A7%86%E8%A7%92-%E9%AB%98%E6%96%AF%E5%99%AA%E5%A3%B0-MLE-2.jpg">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515160951642.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515160903239.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515162213620.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515164115594.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515164313235.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515163822559.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200412091951580.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515172738159.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/%E6%AD%A3%E5%88%99%E5%8C%96-%E5%B2%AD%E5%9B%9E%E5%BD%92-%E8%B4%9D%E5%8F%B6%E6%96%AF%E8%A7%92%E5%BA%A6.jpg">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/%E4%B8%89+%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E5%B7%B2%E7%9F%A5.jpg">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E5%8F%8A%E5%85%B6%E5%87%A0%E4%BD%95%E6%84%8F%E4%B9%89-2.jpg">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515110857430.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515113602890.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515114002142.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95-%E6%A6%82%E7%8E%87%E8%A7%86%E8%A7%92-%E9%AB%98%E6%96%AF%E5%99%AA%E5%A3%B0-MLE-1-1589548043360.jpg">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95-%E6%A6%82%E7%8E%87%E8%A7%86%E8%A7%92-%E9%AB%98%E6%96%AF%E5%99%AA%E5%A3%B0-MLE-2.jpg">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515160951642.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515160903239.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515162213620.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515164115594.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515164313235.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515163822559.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200412091951580.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515172738159.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/%E6%AD%A3%E5%88%99%E5%8C%96-%E5%B2%AD%E5%9B%9E%E5%BD%92-%E8%B4%9D%E5%8F%B6%E6%96%AF%E8%A7%92%E5%BA%A6.jpg">
 <meta property="article:published_time" content="2020-05-15T13:00:14.000Z">
-<meta property="article:modified_time" content="2020-05-15T13:24:55.026Z">
+<meta property="article:modified_time" content="2020-05-15T23:04:44.396Z">
 <meta property="article:author" content="Ayzp">
 <meta property="article:tag" content="数学">
 <meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/%E4%B8%89+%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.png">
+<meta name="twitter:image" content="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/%E4%B8%89+%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.png">
 
-<link rel="canonical" href="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/">
+<link rel="canonical" href="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">
 
 
 <script id="page-configurations">
@@ -65,7 +65,7 @@
   };
 </script>
 
-  <title>数学-机器学习-线性分类 | AYZP</title>
+  <title>数学-机器学习-线性回归 | AYZP</title>
   
 
 
@@ -201,7 +201,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/">
+    <link itemprop="mainEntityOfPage" href="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/headphoto.png">
@@ -214,7 +214,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          数学-机器学习-线性分类
+          数学-机器学习-线性回归
         </h1>
 
         <div class="post-meta">
@@ -223,10 +223,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-05-15 21:00:14 / Modified: 21:24:55" itemprop="dateCreated datePublished" datetime="2020-05-15T21:00:14+08:00">2020-05-15</time>
+              <time title="Created: 2020-05-15 21:00:14" itemprop="dateCreated datePublished" datetime="2020-05-15T21:00:14+08:00">2020-05-15</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-16 07:04:44" itemprop="dateModified" datetime="2020-05-16T07:04:44+08:00">2020-05-16</time>
+              </span>
 
           
             <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -260,20 +266,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="三-线性分类"><a href="#三-线性分类" class="headerlink" title="三 线性分类"></a>三 线性分类</h1><blockquote>
+        <h1 id="三-线性回归"><a href="#三-线性回归" class="headerlink" title="三 线性回归"></a>三 线性回归</h1><blockquote>
 <p>Linear Regression</p>
 </blockquote>
-<h2 id="3-1-思维导图简述"><a href="#3-1-思维导图简述" class="headerlink" title="3.1 思维导图简述"></a>3.1 思维导图简述</h2><p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/三+线性回归.png" alt="三+线性回归"></p>
+<h2 id="3-1-思维导图简述"><a href="#3-1-思维导图简述" class="headerlink" title="3.1 思维导图简述"></a>3.1 思维导图简述</h2><p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/三+线性回归.png" alt="三+线性回归"></p>
 <p><a href="https://naotu.baidu.com/file/cff2bbe2139fe0dacca33f17186812a7" target="_blank" rel="noopener">数学基础-高斯分布思维导图</a></p>
 <a id="more"></a>
 <h2 id="3-2-内容"><a href="#3-2-内容" class="headerlink" title="3.2 内容"></a>3.2 内容</h2><h3 id="3-2-1-最小二乘法及其几何意义"><a href="#3-2-1-最小二乘法及其几何意义" class="headerlink" title="3.2.1 最小二乘法及其几何意义"></a>3.2.1 最小二乘法及其几何意义</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>最小二乘法<code>LSM(Least Squre Method)</code>，表面意思就是让<code>二乘</code>得到的结果最小，<code>二乘</code>又是什么呢，<code>二乘</code>就是两个数相乘，也就是平方，那么我们就可以轻松的得到最小二乘法的Loss Function：</p>
 <script type="math/tex; mode=display">
-L(w) = \sum\limits_{i = 1}^N { { {\left( { {w^T}{x_i} - {y_i}} \right)}^2}}</script><h4 id="A-已知"><a href="#A-已知" class="headerlink" title="A 已知"></a>A 已知</h4><p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/最小二乘法已知.jpg" alt="最小二乘法已知"></p>
+L(w) = \sum\limits_{i = 1}^N { { {\left( { {w^T}{x_i} - {y_i}} \right)}^2}}</script><h4 id="A-已知"><a href="#A-已知" class="headerlink" title="A 已知"></a>A 已知</h4><p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/最小二乘法已知.jpg" alt="最小二乘法已知"></p>
 <h4 id="B-求"><a href="#B-求" class="headerlink" title="B 求"></a>B 求</h4><p>令L(w)最小的w是多少。</p>
 <h4 id="C-解"><a href="#C-解" class="headerlink" title="C 解"></a>C 解</h4><p>最后求得的结果是<script type="math/tex">w=(X^{T}X)^{-1}X^{T}Y</script>。</p>
 <p>其中，<script type="math/tex">{({X^T}X)^{ - 1}}{X^T}</script>又称为伪逆。</p>
 <p>这里存在<script type="math/tex">(X^{T}X)^{-1}</script>中的<script type="math/tex">X^{T}X</script>不一定可逆的问题。</p>
-<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/最小二乘法及其几何意义-2.jpg" alt="最小二乘法及其几何意义-2"></p>
+<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/最小二乘法及其几何意义-2.jpg" alt="最小二乘法及其几何意义-2"></p>
 <h4 id="D-收获"><a href="#D-收获" class="headerlink" title="D 收获"></a>D 收获</h4><p>最小二乘法的几何意义有两个：</p>
 <ol>
 <li><p>在下图中，最小二乘法就是将所有的<code>实际值-估计值</code>误差都累加起来.</p>
@@ -282,7 +288,7 @@ L(w) = \sum\limits_{i = 1}^N { { {\left( { {w^T}{x_i} - {y_i}} \right)}^2}}</scr
 </blockquote>
 </li>
 </ol>
-<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515110857430.png" alt="image-20200515110857430"></p>
+<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515110857430.png" alt="image-20200515110857430"></p>
 <ol>
 <li><p>高维空间的投影</p>
 <blockquote>
@@ -291,24 +297,24 @@ L(w) = \sum\limits_{i = 1}^N { { {\left( { {w^T}{x_i} - {y_i}} \right)}^2}}</scr
 </li>
 </ol>
 <p>X是<code>N*P</code>维矩阵，按列选取<code>p维</code>，构成p维的子空间</p>
-<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515113602890.png" alt="image-20200515113602890"></p>
+<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515113602890.png" alt="image-20200515113602890"></p>
 <p>把<script type="math/tex">f</script>写成<script type="math/tex">x^{T}\beta</script>的形式。然后<script type="math/tex">f(w)=w^{T}x=x^{T}\beta</script>不在p维子空间里，因为除非n个样本点都在回归曲线上，才可能出现<script type="math/tex">f(w)</script>在p维子空间中。</p>
 <p>我们要求的最小二乘法从几何意义上表述就是，向量<script type="math/tex">Y</script>在p维空间中找一条线，让<script type="math/tex">Y</script>离这条线最近，或者说向量<script type="math/tex">Y</script>离这个平面最近，很显然就是<script type="math/tex">Y</script>的投影。而这个投影就是<script type="math/tex">x_1, x_2, ..., x_p</script>的线性组合。</p>
-<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515114002142.png" alt="image-20200515114002142"></p>
+<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515114002142.png" alt="image-20200515114002142"></p>
 <p>法向量可以表示为<script type="math/tex">(Y-X\beta)</script></p>
 <p>法向量肯定垂直于p维空间，所以<script type="math/tex">X^{T}(Y-X\beta)=0</script>，求解得出<script type="math/tex">\beta=(X^{T}X)^{-1}X^{T}Y</script></p>
 <h3 id="3-2-2-最小二乘法-概率视角-高斯噪声-MLE"><a href="#3-2-2-最小二乘法-概率视角-高斯噪声-MLE" class="headerlink" title="3.2.2 最小二乘法-概率视角-高斯噪声-MLE"></a>3.2.2 最小二乘法-概率视角-高斯噪声-MLE</h3><h4 id="背景-1"><a href="#背景-1" class="headerlink" title="背景"></a>背景</h4><p>从概率角度看最小二乘法，实际上就是用概率分布函数PDF来硬算，这个PDF要是高斯噪声才可以让最大似然估计=最小二乘估计的结果。<code>MLE=LSE</code></p>
-<h4 id="A-已知-1"><a href="#A-已知-1" class="headerlink" title="A 已知"></a>A 已知</h4><p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/最小二乘法-概率视角-高斯噪声-MLE-1-1589548043360.jpg" alt="image-1589548043360"></p>
+<h4 id="A-已知-1"><a href="#A-已知-1" class="headerlink" title="A 已知"></a>A 已知</h4><p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/最小二乘法-概率视角-高斯噪声-MLE-1-1589548043360.jpg" alt="image-1589548043360"></p>
 <h4 id="B-求-1"><a href="#B-求-1" class="headerlink" title="B 求"></a>B 求</h4><p>假设<script type="math/tex">p(Y|x_i,w)</script>的概率密度函数是一维高斯分布函数，服从的高斯分布均值为<script type="math/tex">w^{T}x</script>，方差为<script type="math/tex">\sigma^2</script>。求<code>参数w</code>的MLE。损失函数定义为：</p>
 <script type="math/tex; mode=display">
 L(w) = logP(Y|{X_i},w)</script><h4 id="C-解-1"><a href="#C-解-1" class="headerlink" title="C 解"></a>C 解</h4><p>当<script type="math/tex">P(Y|x_i,w)</script>服从正态分布，才有<code>MLE=LSE</code>，最小二乘法估计定义为<script type="math/tex">L(w) = \sum\limits_{i = 1}^N {\left\| { {w^T}{x_i} - y} \right\|_2^2}</script></p>
-<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/最小二乘法-概率视角-高斯噪声-MLE-2.jpg" alt="image-123456"></p>
+<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/最小二乘法-概率视角-高斯噪声-MLE-2.jpg" alt="image-123456"></p>
 <h3 id="3-2-3-正则化-岭回归-频率角度"><a href="#3-2-3-正则化-岭回归-频率角度" class="headerlink" title="3.2.3 正则化-岭回归-频率角度"></a>3.2.3 正则化-岭回归-频率角度</h3><blockquote>
 <p>Regularization - Ridge Regression - Bayesians</p>
 </blockquote>
 <h4 id="背景-2"><a href="#背景-2" class="headerlink" title="背景"></a>背景</h4><p>正则化是为了解决过拟合问题而提出的。regularization，让它正常，不要那么不正常了，那么这个不正常体现在那里呢，目前[2020-5-15]来看，不就是它过拟合了，不像正常的那样了。</p>
 <p>过拟合是什么呢？<br>过拟合从字面意义上看，就是拟合过度了，什么才叫拟合过度呢？看下图。一个点，有好多情况，你得到的曲线，只适合某一种样本点，其他样本点适应性极差。</p>
-<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515160951642.png" alt="image-20200515160951642"></p>
+<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515160951642.png" alt="image-20200515160951642"></p>
 <ul>
 <li>从数据角度分析：首先，<script type="math/tex">X</script>是样本数据阵，它是一个<code>N*P维</code>的矩阵，N表示的样本的数量，P维表示的是每一个样本的状态数，就是N个样本，每个样本是p维的。然后，理论上应该样本数<code>N</code>应该<code>远大于</code>样本的维数<code>P</code>，但是，实际中可能仅有几个样本，出现<code>N&lt;P</code>的情况，那么就会造成过拟合</li>
 <li>从数学角度分析：在<code>3.2.1</code>中得到的<script type="math/tex">(X^{T}X)^{-1}</script>中的<script type="math/tex">X^{T}X</script>不可逆，就会直接造成过拟合。</li>
@@ -324,21 +330,21 @@ L(w) = logP(Y|{X_i},w)</script><h4 id="C-解-1"><a href="#C-解-1" class="header
 <li>L1 -&gt; Lasso</li>
 <li><strong>L2 -&gt; Ridge</strong></li>
 </ol>
-<h4 id="A-已知-2"><a href="#A-已知-2" class="headerlink" title="A 已知"></a>A 已知</h4><p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515160903239.png" alt="image-20200515160903239"></p>
+<h4 id="A-已知-2"><a href="#A-已知-2" class="headerlink" title="A 已知"></a>A 已知</h4><p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515160903239.png" alt="image-20200515160903239"></p>
 <h4 id="B-求-2"><a href="#B-求-2" class="headerlink" title="B 求"></a>B 求</h4><p>正则化下，新的w形式</p>
 <h4 id="C-解-2"><a href="#C-解-2" class="headerlink" title="C 解"></a>C 解</h4><script type="math/tex; mode=display">
-\hat w = {({X^T}X + \lambda I)^{ - 1}}{X^T}Y</script><p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515162213620.png" alt="image-20200515162213620"></p>
+\hat w = {({X^T}X + \lambda I)^{ - 1}}{X^T}Y</script><p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515162213620.png" alt="image-20200515162213620"></p>
 <h4 id="D-收获-1"><a href="#D-收获-1" class="headerlink" title="D 收获"></a>D 收获</h4><p>正则化：解决过拟合问题。过拟合由<script type="math/tex">\hat w = {({X^T}X)^{ - 1}}{X^T}Y</script>中<script type="math/tex">{({X^T}X)^{ - 1}}</script>不可逆引起。正则化就是构造新<code>Loss Function J(w)</code>，推出的<script type="math/tex">\hat w</script>就是可逆的，且一定可逆，将不可逆变成可逆。</p>
-<h3 id="3-2-4-正则化-岭回归-贝叶斯角度"><a href="#3-2-4-正则化-岭回归-贝叶斯角度" class="headerlink" title="3.2.4 正则化-岭回归-贝叶斯角度"></a>3.2.4 正则化-岭回归-贝叶斯角度</h3><h4 id="A-已知-3"><a href="#A-已知-3" class="headerlink" title="A 已知"></a>A 已知</h4><p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515164115594.png" alt="image-20200515164115594"></p>
+<h3 id="3-2-4-正则化-岭回归-贝叶斯角度"><a href="#3-2-4-正则化-岭回归-贝叶斯角度" class="headerlink" title="3.2.4 正则化-岭回归-贝叶斯角度"></a>3.2.4 正则化-岭回归-贝叶斯角度</h3><h4 id="A-已知-3"><a href="#A-已知-3" class="headerlink" title="A 已知"></a>A 已知</h4><p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515164115594.png" alt="image-20200515164115594"></p>
 <h4 id="B-求-3"><a href="#B-求-3" class="headerlink" title="B 求"></a>B 求</h4><p>参数<code>w</code>的最大后验估计<code>MAP</code>。</p>
-<h4 id="C-解-3"><a href="#C-解-3" class="headerlink" title="C 解"></a>C 解</h4><p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515164313235.png" alt="image-20200515164313235"></p>
+<h4 id="C-解-3"><a href="#C-解-3" class="headerlink" title="C 解"></a>C 解</h4><p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515164313235.png" alt="image-20200515164313235"></p>
 <h4 id="D-收获-2"><a href="#D-收获-2" class="headerlink" title="D 收获"></a>D 收获</h4><p>从贝叶斯角度用<code>最大后验概率估计</code>进行分析，惊人的发现，在参数<code>w</code>先验知识是高斯分布的情况下，居然和<code>正则化的最小二乘估计</code>是一样的</p>
-<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515163822559.png" alt="image-20200515163822559"></p>
+<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515163822559.png" alt="image-20200515163822559"></p>
 <h2 id="3-3-问题"><a href="#3-3-问题" class="headerlink" title="3.3 问题"></a>3.3 问题</h2><h3 id="3-3-1-为什么贝叶斯角度分析求的就是最大后验估计MAP呢"><a href="#3-3-1-为什么贝叶斯角度分析求的就是最大后验估计MAP呢" class="headerlink" title="3.3.1 为什么贝叶斯角度分析求的就是最大后验估计MAP呢"></a>3.3.1 为什么贝叶斯角度分析求的就是最大后验估计MAP呢</h3><p>因为贝叶斯派设置的参数<code>w</code>是一个概率分布，它是有<code>先验知识</code>的，并不像是频率派参数w是一个常数。贝叶斯派想要求出使得概率值最大的<code>w</code>，就需要借助<code>贝叶斯公式</code>进行硬算，在硬算的过程中，需要借助<code>w</code>的<code>先验知识</code>。最后<strong>要求</strong>得的那个概率值就是一个<code>后验概率</code>，在<code>3.2.4</code>中，那个后验概率是<script type="math/tex">P(w|y)</script></p>
 <h3 id="3-3-2-正则化-regularized-是什么"><a href="#3-3-2-正则化-regularized-是什么" class="headerlink" title="3.3.2 正则化(regularized)是什么"></a>3.3.2 正则化(regularized)是什么</h3><p><strong>将不可逆变为可逆即为正则化</strong></p>
 <p>为什么需要正则化，首先正则化出现的背景是最小二乘法$w=(X^TX)^{-1}X^TY$中式子$X^TX$可能是不可逆的，从数学角度分析就是<code>X</code>为<code>N*p</code>维的矩阵，<code>N</code>表示样本数，<code>p</code>是<code>Xi</code>的状态向量数，在实际应用中，可能测得的样本数很少，出现了<code>N&lt;P</code>的情况，即$X^TX$不可逆，那么w就求不来。</p>
 <p>这样不可逆会导致什么后果呢。答，会引起过拟合。因为如果样本数过少，那么拟合的方法就会有很多。出现错误的几率就会很高。</p>
-<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200412091951580.png" alt="image-20200412091951580"></p>
+<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200412091951580.png" alt="image-20200412091951580"></p>
 <p>怎么解决这个问题提，答，引入正则化。正则化实际上就是给最小二乘法的损失函数(Loss Function)<code>L(w)</code>加一个框架，得到一个新的函数<code>J(w)</code>，其中$J(w)=L(w)+\lambda P(w)$。这样求出的<code>w</code>就会绝对可逆。</p>
 <h3 id="3-3-3-最小二乘法的第二个几何意义"><a href="#3-3-3-最小二乘法的第二个几何意义" class="headerlink" title="3.3.3 最小二乘法的第二个几何意义"></a>3.3.3 最小二乘法的第二个几何意义</h3><p>真实空间是x1, x2, …, xn，测量值y没有在真实空间中，y的估计值在真实空间里最接近的那个就是它在真实空间的投影<script type="math/tex">f(w)=x^{T}β</script>，其中真实空间x与这个投影f(w)是垂直的。所以就有<script type="math/tex">X^{T}(Y-Xβ)=0</script>，解出β就是所求的最小二乘法得出的最优w</p>
 <ul>
@@ -347,10 +353,10 @@ L(w) = logP(Y|{X_i},w)</script><h4 id="C-解-1"><a href="#C-解-1" class="header
 </ul>
 <h3 id="3-3-4-矩阵求导规则"><a href="#3-3-4-矩阵求导规则" class="headerlink" title="3.3.4 矩阵求导规则"></a>3.3.4 矩阵求导规则</h3><p>推荐，哈工大严质彬，矩阵论</p>
 <p>公式查询: <a href="https://blog.csdn.net/crazy_scott/article/details/80557814" target="_blank" rel="noopener">矩阵求导法则与性质</a></p>
-<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200515172738159.png" alt="image-20200515172738159"></p>
+<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/image-20200515172738159.png" alt="image-20200515172738159"></p>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>[1] shuhuai008. 【机器学习】【白板推导系列】【合集 1～23】. bilibili. 2019.<br><a href="https://www.bilibili.com/video/BV1aE411o7qd?p=9" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1aE411o7qd?p=9</a></p>
 <p>[2] 3.2.4 正则化-岭回归-贝叶斯角度手稿</p>
-<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/正则化-岭回归-贝叶斯角度.jpg" alt="正则化-岭回归-贝叶斯角度"></p>
+<p><img src="/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/正则化-岭回归-贝叶斯角度.jpg" alt="正则化-岭回归-贝叶斯角度"></p>
 <p>[3] zealscott. 矩阵求导法则与性质. CSDN. 2018. <a href="https://blog.csdn.net/crazy_scott/article/details/80557814" target="_blank" rel="noopener">https://blog.csdn.net/crazy_scott/article/details/80557814</a></p>
 
     </div>
@@ -382,7 +388,7 @@ L(w) = logP(Y|{X_i},w)</script><h4 id="C-解-1"><a href="#C-解-1" class="header
   </li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/" title="数学-机器学习-线性分类">https://ayzp.github.io/2020/05/15/数学-机器学习-线性分类/</a>
+    <a href="https://ayzp.github.io/2020/05/15/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" title="数学-机器学习-线性回归">https://ayzp.github.io/2020/05/15/数学-机器学习-线性回归/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -465,7 +471,7 @@ L(w) = logP(Y|{X_i},w)</script><h4 id="C-解-1"><a href="#C-解-1" class="header
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#三-线性分类"><span class="nav-number">1.</span> <span class="nav-text">三 线性分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-思维导图简述"><span class="nav-number">1.1.</span> <span class="nav-text">3.1 思维导图简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-内容"><span class="nav-number">1.2.</span> <span class="nav-text">3.2 内容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-最小二乘法及其几何意义"><span class="nav-number">1.2.1.</span> <span class="nav-text">3.2.1 最小二乘法及其几何意义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#背景"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-已知"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">A 已知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-求"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">B 求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-解"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">C 解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#D-收获"><span class="nav-number">1.2.1.5.</span> <span class="nav-text">D 收获</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-最小二乘法-概率视角-高斯噪声-MLE"><span class="nav-number">1.2.2.</span> <span class="nav-text">3.2.2 最小二乘法-概率视角-高斯噪声-MLE</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#背景-1"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-已知-1"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">A 已知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-求-1"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">B 求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-解-1"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">C 解</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-正则化-岭回归-频率角度"><span class="nav-number">1.2.3.</span> <span class="nav-text">3.2.3 正则化-岭回归-频率角度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#背景-2"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-已知-2"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">A 已知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-求-2"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">B 求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-解-2"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">C 解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#D-收获-1"><span class="nav-number">1.2.3.5.</span> <span class="nav-text">D 收获</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-4-正则化-岭回归-贝叶斯角度"><span class="nav-number">1.2.4.</span> <span class="nav-text">3.2.4 正则化-岭回归-贝叶斯角度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-已知-3"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">A 已知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-求-3"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">B 求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-解-3"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">C 解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#D-收获-2"><span class="nav-number">1.2.4.4.</span> <span class="nav-text">D 收获</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-问题"><span class="nav-number">1.3.</span> <span class="nav-text">3.3 问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-为什么贝叶斯角度分析求的就是最大后验估计MAP呢"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.3.1 为什么贝叶斯角度分析求的就是最大后验估计MAP呢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-2-正则化-regularized-是什么"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.3.2 正则化(regularized)是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-3-最小二乘法的第二个几何意义"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3.3 最小二乘法的第二个几何意义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-4-矩阵求导规则"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.3.4 矩阵求导规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">1.4.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#三-线性回归"><span class="nav-number">1.</span> <span class="nav-text">三 线性回归</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-思维导图简述"><span class="nav-number">1.1.</span> <span class="nav-text">3.1 思维导图简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-内容"><span class="nav-number">1.2.</span> <span class="nav-text">3.2 内容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-最小二乘法及其几何意义"><span class="nav-number">1.2.1.</span> <span class="nav-text">3.2.1 最小二乘法及其几何意义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#背景"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-已知"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">A 已知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-求"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">B 求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-解"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">C 解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#D-收获"><span class="nav-number">1.2.1.5.</span> <span class="nav-text">D 收获</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-最小二乘法-概率视角-高斯噪声-MLE"><span class="nav-number">1.2.2.</span> <span class="nav-text">3.2.2 最小二乘法-概率视角-高斯噪声-MLE</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#背景-1"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-已知-1"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">A 已知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-求-1"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">B 求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-解-1"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">C 解</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-正则化-岭回归-频率角度"><span class="nav-number">1.2.3.</span> <span class="nav-text">3.2.3 正则化-岭回归-频率角度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#背景-2"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-已知-2"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">A 已知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-求-2"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">B 求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-解-2"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">C 解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#D-收获-1"><span class="nav-number">1.2.3.5.</span> <span class="nav-text">D 收获</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-4-正则化-岭回归-贝叶斯角度"><span class="nav-number">1.2.4.</span> <span class="nav-text">3.2.4 正则化-岭回归-贝叶斯角度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-已知-3"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">A 已知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-求-3"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">B 求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-解-3"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">C 解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#D-收获-2"><span class="nav-number">1.2.4.4.</span> <span class="nav-text">D 收获</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-问题"><span class="nav-number">1.3.</span> <span class="nav-text">3.3 问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-为什么贝叶斯角度分析求的就是最大后验估计MAP呢"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.3.1 为什么贝叶斯角度分析求的就是最大后验估计MAP呢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-2-正则化-regularized-是什么"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.3.2 正则化(regularized)是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-3-最小二乘法的第二个几何意义"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3.3 最小二乘法的第二个几何意义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-4-矩阵求导规则"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.3.4 矩阵求导规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">1.4.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
