@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ayzp.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="前言学习目的1） SLAM中需要使用cmake管理代码 2）Linux开发中管理C程序项目代码必须要使用的工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cmake学习笔记">
+<meta property="og:url" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="AYZP">
+<meta property="og:description" content="前言学习目的1） SLAM中需要使用cmake管理代码 2）Linux开发中管理C程序项目代码必须要使用的工具">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/cmake.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200406205238962.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200406210506807.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200406210731442.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422223202578.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422223310258.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422223327271.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422223350056.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422223931115.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422224027487.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422221257390.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422222540535.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422222621011.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422220158673.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422220653475.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422220714490.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422220746815.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422220813881.png">
+<meta property="og:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422220848207.png">
+<meta property="article:published_time" content="2020-05-31T07:16:39.000Z">
+<meta property="article:modified_time" content="2020-05-31T08:55:02.750Z">
+<meta property="article:author" content="Ayzp">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/cmake.png">
+
+<link rel="canonical" href="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>cmake学习笔记 | AYZP</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">AYZP</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-cv">
+
+    <a href="/CV/" rel="section"><i class="fa fa-address-card fa-fw"></i>CV</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-set">
+
+    <a href="/set/" rel="section"><i class="fa fa-briefcase fa-fw"></i>set</a>
+
+  </li>
+        <li class="menu-item menu-item-notes">
+
+    <a href="/AyzpNotes/" rel="section"><i class="fa fa-sticky-note fa-fw"></i>notes</a>
+
+  </li>
+        <li class="menu-item menu-item-mission">
+
+    <a href="/Mission/" rel="section"><i class="fa fa-tasks fa-fw"></i>Mission</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/headphoto.png">
+      <meta itemprop="name" content="Ayzp">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AYZP">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          cmake学习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-31 15:16:39 / Modified: 16:55:02" itemprop="dateCreated datePublished" datetime="2020-05-31T15:16:39+08:00">2020-05-31</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>7.7k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>7 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="学习目的"><a href="#学习目的" class="headerlink" title="学习目的"></a>学习目的</h3><p>1） SLAM中需要使用cmake管理代码</p>
+<p>2）Linux开发中管理C程序项目代码必须要使用的工具</p>
+<a id="more"></a>
+<h3 id="学习路线"><a href="#学习路线" class="headerlink" title="学习路线"></a>学习路线</h3><p>1）Cjacker的《Cmake 实践》</p>
+<p>2）Ubuntu16.04下运行cmake</p>
+<p>3）用到哪部分内容就学哪部分，后期不断补全新内容</p>
+<p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/cmake.png" alt="cmake"></p>
+<p><a href="https://naotu.baidu.com/file/ccad1b00cc5e430ccdf873af3a7a0a72" target="_blank" rel="noopener">cmake学习</a></p>
+<h1 id="一-简介"><a href="#一-简介" class="headerlink" title="一 简介"></a>一 简介</h1><p>Cmake是Linux下的一款可以用来编译c程序和管理项目的工具。</p>
+<p>英文分类是：build generator</p>
+<p>特点：</p>
+<p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200406205238962.png" alt="image-20200406205238962"></p>
+<h1 id="二-内容"><a href="#二-内容" class="headerlink" title="二 内容"></a>二 内容</h1><h2 id="2-1-简单入门"><a href="#2-1-简单入门" class="headerlink" title="2.1 简单入门"></a>2.1 简单入门</h2><h3 id="2-1-1-下载cmake"><a href="#2-1-1-下载cmake" class="headerlink" title="2.1.1 下载cmake"></a>2.1.1 下载cmake</h3><p>Linux的终端中输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake</span><br></pre></td></tr></table></figure>
+<p>它就会提示你怎么安装，很简单。</p>
+<h3 id="2-1-2-hello-world"><a href="#2-1-2-hello-world" class="headerlink" title="2.1.2 hello world"></a>2.1.2 hello world</h3><h4 id="A-准备工作"><a href="#A-准备工作" class="headerlink" title="A 准备工作"></a>A 准备工作</h4><ul>
+<li>建立一个工作目录</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir backup/cmake</span><br><span class="line"><span class="built_in">cd</span> backup/cmake</span><br><span class="line">mkdir t1</span><br><span class="line"><span class="built_in">cd</span> t1</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>然后在t1目录下建立<code>main.c</code>和<code>CMakeLists.txt</code>（注意文件名大小写）</p>
+<ul>
+<li>main.c内容</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello World from t1 Main!\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>CMakeLists.txt内容</li>
+</ul>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">PROJECT</span> (HELLO)</span><br><span class="line"><span class="keyword">SET</span> (SRC_LIST main.c)</span><br><span class="line"><span class="keyword">MESSAGE</span> (STATUS <span class="string">"This is BINARY dir"</span> <span class="variable">$&#123;HELLO_BINARY_DIR&#125;</span>)</span><br><span class="line"><span class="keyword">MESSAGE</span> (STATUS <span class="string">"This is SOURCE dir"</span> <span class="variable">$&#123;HELLO_SOURCE_DIR&#125;</span>)</span><br><span class="line"><span class="keyword">ADD_EXECUTABLE</span>(hello <span class="variable">$&#123;SRC_LIST&#125;</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="B-开始构建"><a href="#B-开始构建" class="headerlink" title="B 开始构建"></a>B 开始构建</h4><ul>
+<li>所有的文件创建完成后，t1目录中应该存在main.c和CMakeLists.txt两个文件，接下来我们构建这个工程，在这个目录运行：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake .</span><br></pre></td></tr></table></figure>
+<p>输出大概是这个样子</p>
+<p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200406210506807.png" alt="image-20200406210506807" style="zoom:50%;"></p>
+<p>t1目录会多一些文件：</p>
+<p><code>CMakeFiles, CMakeCache.txt, cmake_install.cmake</code>等文件，并且生成了<code>Makefile</code></p>
+<p>这些文件大部分没用，最关键的是，它<strong>自动生成了<code>Makefile</code></strong></p>
+<ul>
+<li>再进行工程的实际构建，在这个目录输入make命令：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+<p>输出大概是这个样子</p>
+<p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200406210731442.png" alt="image-20200406210731442" style="zoom:50%;"></p>
+<ul>
+<li>这时候，我们需要的目标文件hello已经构建完成，位于当前目录，尝试运行一下：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./hello</span><br></pre></td></tr></table></figure>
+<p>得到输出：</p>
+<p>Hello World from Main</p>
+<h3 id="2-1-3-简单的解释"><a href="#2-1-3-简单的解释" class="headerlink" title="2.1.3 简单的解释"></a>2.1.3 简单的解释</h3><p>解析CMakeLists.txt，该文件名大小写相关，如果工程存在多个目录，需要确保每个要管理的目录都存在一个CMakeLists.txt。（<strong>主工程文件夹通过CMakeLists.txt来连接各个子文件夹</strong>）</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">PROJECT</span> (HELLO)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>作用：你可以用这个指令定义工程名称，并可指定工程支持的语言，支持的语言列表是可以忽略的，默认情况表示支持所有语言 。</li>
+<li>注：这个指令隐式的定义了两个 cmake 变量:<br><code>&lt;projectname&gt;_BINARY_DIR</code>以及<code>&lt;projectname&gt;_SOURCE_DIR</code>，这里就是<br><code>HELLO_BINARY_DIR</code>和 <code>HELLO_SOURCE_DIR</code>(所以 <code>CMakeLists.txt</code>中两个<code>MESSAGE</code><br>指令可以直接使用了这两个变量)，因为采用的是内部编译，两个变量目前指的都是工程所<br>在路径<code>/backup/cmake/t1</code>，后面我们会讲到外部编译，两者所指代的内容会有所不同。</li>
+<li>同时 cmake 系统也帮助我们预定义了<code>PROJECT_BINARY_DIR</code>和 <code>PROJECT_SOURCE_DIR</code><br>变量，他们的值分别跟 <code>HELLO_BINARY_DIR</code> 与<code>HELLO_SOURCE_DIR</code> 一致。  </li>
+<li>为了统一起见，建议以后直接使用 <code>PROJECT_BINARY_DIR</code>，<code>PROJECT_SOURCE_DIR</code>，即<br>使修改了工程名称，也不会影响这两个变量。如果使用了<br><code>&lt;projectname&gt;_SOURCE_DIR</code>，修改工程名称后，需要同时修改这些变量。  </li>
+</ul>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span>(SRC_LIST main.c)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>作用：定义变量</li>
+<li>指令：<code>SET(VAR [VALUE] [CACHE TYPE DOCSTRING [FORCE]])</code></li>
+<li>特点：比如我们用到的是 SET(SRC_LIST main.c)，如果有多个源文件，也可以定义成：<br>SET(SRC_LIST main.c t1.c t2.c)  </li>
+</ul>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">MESSAGE</span>(STATUS <span class="string">"This is BINARY dir"</span> <span class="variable">$&#123;HELLO_BINARY_DIR&#125;</span>)</span><br><span class="line"><span class="keyword">MESSAGE</span>(STATUS <span class="string">"This is SOURCE dir"</span> <span class="variable">$&#123;HELLO_SOURCE_DIR&#125;</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>作用：用于向终端输出用户定义的信息，包含三种类型：<code>SEND_ERROR</code>和<code>SATUS</code>和<code>FATAL_ERROR</code></li>
+<li>指令：<code>MESSAGE([SEND_ERROR | STATUS | FATAL_ERROR] &quot;message to display&quot;
+...)</code></li>
+</ul>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ADD_EXECUTABLE</span>(hello <span class="variable">$&#123;SRC_LIST&#125;</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>作用：定义了这个工程会生成一个文件名为hello的可执行文件，相关的源文件是 SRC_LIST 中<br>定义的源文件列表， 本例中你也可以直接写成 <code>ADD_EXECUTABLE(hello main.c)</code></li>
+</ul>
+<h3 id="2-1-4-基本语法规则"><a href="#2-1-4-基本语法规则" class="headerlink" title="2.1.4 基本语法规则"></a>2.1.4 基本语法规则</h3><p>1，变量使用<code>${}</code>方式取值，但是在<code>IF</code>控制语句中是直接使用变量名<br>2，指令(参数 1 参数 2…)<br>参数使用括弧括起，参数之间使用<strong>空格或分号</strong>分开。<br>以上面的 ADD_EXECUTABLE 指令为例，如果存在另外一个 func.c 源文件，就要写成：<br>ADD_EXECUTABLE(hello main.c func.c)或者<br>ADD_EXECUTABLE(hello main.c;func.c)<br>3，指令是大小写无关的，参数和变量是大小写相关的。但，推荐你全部使用大写指令。  </p>
+<p>4,  这里需要特别解释的是作为工程名的 HELLO 和生成的可执行文件 hello 是没有任何关系的。<br>hello 定义了可执行文件的文件名，你完全可以写成：<br>ADD_EXECUTABLE(t1 main.c)<br>编译后会生成一个 t1 可执行文件。  </p>
+<p>5，清理工程：<br>跟经典的 autotools 系列工具一样，运行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make clean</span><br></pre></td></tr></table></figure><br>即可对构建结果进行清理。  </p>
+<h2 id="2-2-更好一点的Hello-World"><a href="#2-2-更好一点的Hello-World" class="headerlink" title="2.2 更好一点的Hello World"></a>2.2 更好一点的Hello World</h2><h3 id="2-2-1-更好表现在："><a href="#2-2-1-更好表现在：" class="headerlink" title="2.2.1 更好表现在："></a>2.2.1 更好表现在：</h3><blockquote>
+<p>更好一点的Hello World，就是要让：</p>
+<ul>
+<li>编译结果都放在<code>build</code>文件夹内：<code>cmake ..</code></li>
+<li>源文件放在<code>src</code>文件夹下</li>
+<li>将构建后的目标文件放入<code>build</code>目录的 <code>bin</code> 子目录  : <code>add_subdirectory(src bin)</code></li>
+<li>利用<code>install</code>指令安装文件于特定文件夹下</li>
+</ul>
+</blockquote>
+<h3 id="2-2-2-指令学习"><a href="#2-2-2-指令学习" class="headerlink" title="2.2.2 指令学习"></a>2.2.2 指令学习</h3><h4 id="A-指令add-subdirectory"><a href="#A-指令add-subdirectory" class="headerlink" title="A 指令add_subdirectory"></a>A 指令<code>add_subdirectory</code></h4><p>该指令是构建文件联系的关键指令，在工程文件的根目录的<code>CMakeLists.txt</code>加入该指令，指向存放源文件的文件夹。</p>
+<p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422223202578.png" alt="image-20200422223202578" style="zoom:50%;"></p>
+<h4 id="B-指令install"><a href="#B-指令install" class="headerlink" title="B 指令install"></a>B 指令<code>install</code></h4><p>INSTALL 指令用于定义安装规则，安装的内容可以包括目标二进制、动态库、静态库以及文件、目录、脚本等。 </p>
+<p><strong>学习时，需要安装什么样的文件，直接去查看指令例子，跟随安装即可</strong></p>
+<h5 id="B-1-目标文件的安装"><a href="#B-1-目标文件的安装" class="headerlink" title="B.1 目标文件的安装"></a>B.1 目标文件的安装</h5><h6 id="指令介绍"><a href="#指令介绍" class="headerlink" title="指令介绍"></a>指令介绍</h6><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">install</span>(  )</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422223310258.png" alt="image-20200422223310258" style="zoom:50%;"></p>
+<p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422223327271.png" alt="image-20200422223327271" style="zoom:50%;"></p>
+<h6 id="举个栗子"><a href="#举个栗子" class="headerlink" title="举个栗子"></a>举个栗子</h6><p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422223350056.png" alt="image-20200422223350056" style="zoom:50%;"></p>
+<h5 id="B-2-普通文件的安装"><a href="#B-2-普通文件的安装" class="headerlink" title="B.2 普通文件的安装"></a>B.2 普通文件的安装</h5><p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422223931115.png" alt="image-20200422223931115" style="zoom:50%;"></p>
+<h5 id="B-3-非目标文件的可执行程序安装（比如脚本之类）"><a href="#B-3-非目标文件的可执行程序安装（比如脚本之类）" class="headerlink" title="B.3 非目标文件的可执行程序安装（比如脚本之类）"></a>B.3 非目标文件的可执行程序安装（比如脚本之类）</h5><p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422224027487.png" alt="image-20200422224027487" style="zoom:50%;"></p>
+<h4 id="C-注意"><a href="#C-注意" class="headerlink" title="C 注意"></a>C 注意</h4><p>想要完成安装，在执行完<code>cmake</code>和<code>make</code>之后，还需执行<code>make install</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmake ..</span><br><span class="line">make </span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-3-问题"><a href="#2-2-3-问题" class="headerlink" title="2.2.3 问题"></a>2.2.3 问题</h3><h4 id="A-cmake的整体流程"><a href="#A-cmake的整体流程" class="headerlink" title="A cmake的整体流程"></a>A cmake的整体流程</h4><p>需要看哔哩哔哩的视频</p>
+<ul>
+<li>工程中的各个文件夹之间，通过<code>CMakeLists.txt</code>文件联系起来</li>
+<li>cmake想要执行一个<code>main.c</code>的程序，应该包括<ul>
+<li>指令<code>add_executable</code>用于生成可执行二进制文件</li>
+<li>指令<code>add_subdirectory</code>包含下一级文件夹，放在工程根目录的<code>CMakeLists.txt</code>中。有了这个指令，你就可以把源文件<code>main.c</code>放到其他文件夹里去啦。</li>
+<li>指令<code>install</code>安装的意思，我目前理解，就是把想要的文件，复制到你想要存放的目标文件夹中去。</li>
+</ul>
+</li>
+<li>cmake编译和链接指令<ul>
+<li><code>cmake .</code></li>
+<li><code>make</code></li>
+</ul>
+</li>
+<li>库的创建<ul>
+<li><code>add_library</code></li>
+<li>其他辅助指令：<code>set_target_properties</code> <code>get_target_property</code></li>
+</ul>
+</li>
+<li>库的使用<ul>
+<li><code>include_directories</code>加入头文件搜索路径，这样头文件就不用放在<code>.c</code>文件一起了</li>
+<li><code>link_directories</code>加入库文件搜索路径</li>
+<li><code>target_link_libraries</code>将库文件链接到目标文件中</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-3-静态库和动态库"><a href="#2-3-静态库和动态库" class="headerlink" title="2.3 静态库和动态库"></a>2.3 静态库和动态库</h2><h3 id="2-3-1-简述静态库和动态库"><a href="#2-3-1-简述静态库和动态库" class="headerlink" title="2.3.1 简述静态库和动态库"></a>2.3.1 简述静态库和动态库</h3><p>库文件是干啥的，库文件就是，一个项目程序，不止一个<code>main.c</code>程序，还有函数文件程序，比如<code>hello.c</code>文件和对应的<code>hello.h</code>文件。</p>
+<p>库要利用<code>hello.c</code>文件制作静态库文件<code>.a</code>或动态库文件<code>.so</code>。电</p>
+<p>动态库和静态库的区别在于：静态库在编译的时候会直接整合到目标程序中，生成的可执行文件不需要依赖额外的库来运行，它一个人就能行。动态函数库在编译的时候，在程序里只有一个“指向”的位置而已，也就是说当可执行文件需要使用到函数库的机制时，程序才会去读取函数库来使用；也就是说可执行文件无法单独运行。</p>
+<p>更详细内容见<code>问题B</code></p>
+<h3 id="2-3-2-指令学习"><a href="#2-3-2-指令学习" class="headerlink" title="2.3.2 指令学习"></a>2.3.2 指令学习</h3><p>在<code>lib</code>目录下建立<code>CMakeLists.txt</code>，内容如下</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(LIBHELLO_SRC hello.c)</span><br><span class="line"><span class="keyword">add_library</span>(hello SHARED <span class="variable">$&#123;LIBHELLO_SRC&#125;</span>) <span class="comment">#建立动态库</span></span><br><span class="line"><span class="keyword">add_library</span>(hello_static STATIC <span class="variable">$&#123;LIBHELLO_SRC&#125;</span>) <span class="comment">#建立静态库</span></span><br><span class="line"><span class="keyword">set_target_properties</span>(hello_static PROPERTIES OUTPUT_NAME <span class="string">"hello"</span>) <span class="comment">#使用libhello.a的名字而不是libhello_static.a</span></span><br><span class="line"><span class="comment"># 与set_target_properties对应的指令</span></span><br><span class="line"><span class="keyword">get_target_property</span>(OUTPUT_VALUE hello_static OUTPUT_NAME)</span><br><span class="line"><span class="keyword">message</span>(STATUS <span class="string">"This is the hello_static</span></span><br><span class="line"><span class="string">OUTPUT_NAME:"</span> <span class="variable">$&#123;OUTPUT_VALUE&#125;</span>)</span><br><span class="line"><span class="comment"># cmake在构建一个新的target时，会尝试清理掉其他使用这个名字的库，因而在建立libhello.a时，就会清理libhello.so，为不清楚，应</span></span><br><span class="line"><span class="keyword">set_target_properties</span>(hello PROPERTIES CLEAN_DIRECT_OUTPUT <span class="number">1</span>)</span><br><span class="line"><span class="keyword">set_target_properties</span>(hello_static PROPERTIES CLEAN_DIRECT_OUTPUT <span class="number">1</span>)</span><br><span class="line"><span class="comment"># 实现动态库版本号</span></span><br><span class="line"><span class="keyword">set_target_properties</span>(hello PROPERTIES VERSION <span class="number">1.2</span> SOVERSION <span class="number">1</span>)</span><br><span class="line"><span class="comment"># 安装共享库和文件</span></span><br><span class="line"><span class="keyword">install</span>(TARGETS hello hello_static</span><br><span class="line">	LIBRARY DESTINATION lib</span><br><span class="line">	ARCHIVE DESTINATION lib) <span class="comment">#注意静态库要使用ARCHIVE关键字</span></span><br><span class="line"><span class="keyword">install</span>(FILES hello.h DESTINATION <span class="keyword">include</span>/hello)</span><br></pre></td></tr></table></figure>
+<p><code>bash</code>中通过：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmake -DCMAKE_INSTALL_PREFIX=/usr ..</span><br><span class="line">make </span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<h4 id="A-指令add-library"><a href="#A-指令add-library" class="headerlink" title="A 指令add_library"></a>A 指令<code>add_library</code></h4><ul>
+<li><p>指令</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span>(libname [SHARED|STATIC|MODULE]</span><br><span class="line">			[EXCLUDE_FROM_ALL]</span><br><span class="line">				source1 source2 .. sourceN)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>库类型</p>
+<ul>
+<li>SHARED, 动态库</li>
+<li>STATIC, 静态库</li>
+<li>MODULE, 在使用dyld的系统有效，如果不支持dyld，则被当做SHARED对待</li>
+<li>动态库和静态库的区别：静态库是编译的时候就加入程序，动态库是调用的时候加入程序</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422221257390.png" alt="image-20200422221257390" style="zoom:50%;"></p>
+<h4 id="B-指令set-target-properties"><a href="#B-指令set-target-properties" class="headerlink" title="B 指令set_target_properties"></a>B 指令<code>set_target_properties</code></h4><ul>
+<li><p>指令</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set_target_properties</span>(target1 target2 ...</span><br><span class="line">					PROPERTIES prop1 value1</span><br><span class="line">						prop2 value2 ...)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422222540535.png" alt="image-20200422222540535" style="zoom:50%;"></p>
+<h4 id="C-指令get-target-property"><a href="#C-指令get-target-property" class="headerlink" title="C 指令get_target_property"></a>C 指令<code>get_target_property</code></h4><ul>
+<li><p>指令</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">get_target_property</span>(VAR <span class="keyword">target</span> property)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>举例</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">get_target_property</span>(OUTPUT_VALUE hello_static OUTPUT_NAME)</span><br><span class="line"><span class="keyword">message</span>(STATUS <span class="string">"This is the hello_static</span></span><br><span class="line"><span class="string">OUTPUT_NAME:"</span><span class="variable">$&#123;OUTPUT_VALUE&#125;</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422222621011.png" alt="image-20200422222621011" style="zoom:50%;"></p>
+<h3 id="2-3-3-问题"><a href="#2-3-3-问题" class="headerlink" title="2.3.3 问题"></a>2.3.3 问题</h3><h4 id="A-安装共享库和头文件问题"><a href="#A-安装共享库和头文件问题" class="headerlink" title="A 安装共享库和头文件问题"></a>A 安装共享库和头文件问题</h4><h5 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h5><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># lib/CMakeLists.txt 中内容</span></span><br><span class="line"><span class="keyword">install</span>(TARGETS hello hello_static</span><br><span class="line">	LIBRARY DESTINATION lib</span><br><span class="line">	ARCHIVE DESTINATION lib)</span><br><span class="line"><span class="keyword">install</span>(FILES hello.h DESTINATION <span class="keyword">include</span>/hello)</span><br><span class="line"></span><br><span class="line"><span class="comment"># bash中输入</span></span><br><span class="line">cmake -DCMAKE_INSTALL_PREFIX=/usr ..</span><br><span class="line">make </span><br><span class="line">make <span class="keyword">install</span></span><br></pre></td></tr></table></figure>
+<p>在运行到<code>make install</code>时出错。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ayzp@ayzp-Lenovo-G40-45:~/backup/cmake/t3/build$ make install</span><br><span class="line">[ 50%] Built target hello</span><br><span class="line">[100%] Built target hello_static</span><br><span class="line">Install the project...</span><br><span class="line">-- Install configuration: <span class="string">""</span></span><br><span class="line">-- Up-to-date: /usr/lib/libhello.so.1.2</span><br><span class="line">CMake Error at lib/cmake_install.cmake:48 (file):</span><br><span class="line">  file INSTALL cannot <span class="built_in">set</span> permissions on <span class="string">"/usr/lib/libhello.so.1.2"</span></span><br><span class="line">Call Stack (most recent call first):</span><br><span class="line">  cmake_install.cmake:37 (include)</span><br></pre></td></tr></table></figure>
+<h5 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h5><p>有些安装需要root密码，因而使用指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<h4 id="B-静态库和动态库的区别"><a href="#B-静态库和动态库的区别" class="headerlink" title="B 静态库和动态库的区别"></a>B 静态库和动态库的区别</h4><p>引：最近做了算法产品化相关的一些工作，其中涉及到算法库封装的相关工作，封装为动态库。总结动态库和静态库区别和对应使用原则。</p>
+<p>区别：静态库和动态库最本质的区别就是：该库是否被编译进目标（程序）内部。</p>
+<p>分别介绍：</p>
+<p>静态（函数）库<br>一般扩展名为（.a或.lib）,这类的函数库通常扩展名为libxxx.a或xxx.lib 。<br>这类库在编译的时候会直接整合到目标程序中，所以利用静态函数库编译成的文件会比较大，这类函数库最大的优点就是编译成功的可执行文件可以独立运行，而不再需要向外部要求读取函数库的内容；但是从升级难易度来看明显没有优势，如果函数库更新，需要重新编译。<br>动态函数库<br>动态函数库的扩展名一般为（.so或.dll），这类函数库通常名为libxxx.so或xxx.dll 。<br>与静态函数库被整个捕捉到程序中不同，动态函数库在编译的时候，在程序里只有一个“指向”的位置而已，也就是说当可执行文件需要使用到函数库的机制时，程序才会去读取函数库来使用；也就是说可执行文件无法单独运行。这样从产品功能升级角度方便升级，只要替换对应动态库即可，不必重新编译整个可执行文件。<br>总结：综上，不能看出：</p>
+<p>从产品化的角度，发布的算法库或功能库尽量使动态库，这样方便更新和升级，不必重新编译整个可执行文件，只需新版本动态库替换掉旧动态库即可。<br>从函数库集成的角度，若要将发布的所有子库（不止一个）集成为一个动态库向外提供接口，那么就需要将所有子库编译为静态库，这样所有子库就可以全部编译进目标动态库中，由最终的一个集成库向外提供功能。<br>————————————————<br>版权声明：本文为CSDN博主「wonengguwozai」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a href="https://blog.csdn.net/wonengguwozai/article/details/93195827" target="_blank" rel="noopener">https://blog.csdn.net/wonengguwozai/article/details/93195827</a></p>
+<h2 id="2-4-如何使用外部共享库和头文件"><a href="#2-4-如何使用外部共享库和头文件" class="headerlink" title="2.4 如何使用外部共享库和头文件"></a>2.4 如何使用外部共享库和头文件</h2><h3 id="2-4-1-简述"><a href="#2-4-1-简述" class="headerlink" title="2.4.1 简述"></a>2.4.1 简述</h3><p>通过<code>add_library</code>构建好动态库、静态库以后。怎么使用这些库呢？</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include_directories</span>() <span class="comment">#加入非标准的头文件搜索路径</span></span><br><span class="line"><span class="keyword">link_directories</span>() <span class="comment">#加入非标准的库文件搜索路径</span></span><br><span class="line"><span class="keyword">target_link_libraries</span>() <span class="comment">#库或可执行二进制加入库链接</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-4-2-指令学习"><a href="#2-4-2-指令学习" class="headerlink" title="2.4.2 指令学习"></a>2.4.2 指令学习</h3><h4 id="A-引入头文件搜索路径"><a href="#A-引入头文件搜索路径" class="headerlink" title="A 引入头文件搜索路径"></a>A 引入头文件搜索路径</h4><p>如何通过<code>include_directories</code>指令加入非标准的头文件搜索路径</p>
+<ul>
+<li><p>作用：用于搜索系统头文件<code>.h</code></p>
+</li>
+<li><p>指令说明</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include_directories</span>( dir1 dir2 ... )</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422220158673.png" alt="image-20200422220158673" style="zoom:50%;"></p>
+<ul>
+<li><p>举例</p>
+<p>现在我们在<code>src/CMakeLists.txt</code>中添加一个头文件搜索路径、方式很简单，加入：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include_directories</span>(/usr/<span class="keyword">include</span>/hello)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="B-为target添加共享库"><a href="#B-为target添加共享库" class="headerlink" title="B 为target添加共享库"></a>B 为target添加共享库</h4><p>将目标文件链接到libhello。（也就是将hello.c构建的动态库或静态库链接到hello.h）</p>
+<ul>
+<li>链接的是<code>.c</code>文件，目的是将.c文件，链接到你<code>main</code>函数要执行的文件中。</li>
+</ul>
+<h5 id="B-1-如何通过link-directories指令加入非标准的库文件搜索路径"><a href="#B-1-如何通过link-directories指令加入非标准的库文件搜索路径" class="headerlink" title="B.1 如何通过link_directories指令加入非标准的库文件搜索路径"></a>B.1 如何通过<code>link_directories</code>指令加入非标准的库文件搜索路径</h5><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">link_directories</span>(dir1 dir2 ...)</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422220653475.png" alt="image-20200422220653475" style="zoom:50%;"></p>
+<h5 id="B-2-如何通过target-link-libraries为库或可执行二进制加入库连接"><a href="#B-2-如何通过target-link-libraries为库或可执行二进制加入库连接" class="headerlink" title="B.2 如何通过target_link_libraries为库或可执行二进制加入库连接"></a>B.2 如何通过<code>target_link_libraries</code>为库或可执行二进制加入库连接</h5><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">target_link_libraries</span>(<span class="keyword">target</span> library1 </span><br><span class="line">					&lt;debug | optimized&gt; library2</span><br><span class="line">					...)</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422220714490.png" alt="image-20200422220714490" style="zoom:50%;"></p>
+<ul>
+<li><p>作用：将目标文件链接到libhello</p>
+</li>
+<li><p>举例：</p>
+<p>例1：链接到动态库</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">target_link_libraries</span>(main hello)</span><br><span class="line"><span class="comment">#或者</span></span><br><span class="line"><span class="keyword">target_link_libraries</span>(main libhello.so)</span><br><span class="line"><span class="comment"># 这里main是文件夹src/下的文件main.c，主函数main()&#123;&#125;就在main.c中。</span></span><br><span class="line"><span class="comment"># libhello.so是上一讲创建的动态库，里面有hello.c这个函数。</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422220746815.png" alt="image-20200422220746815" style="zoom:50%;"></p>
+<p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422220813881.png" alt="image-20200422220813881" style="zoom:50%;"></p>
+<p>​        例2：链接到静态库<code>target_link_libraries(main libhello.a)</code></p>
+<p><img src="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200422220848207.png" alt="image-20200422220848207" style="zoom:50%;"></p>
+<h1 id="三-未完待续"><a href="#三-未完待续" class="headerlink" title="三 未完待续"></a>三 未完待续</h1><h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] 《Cmake Practice》 — Cjacker</p>
+<p>[2] wonengguwozai. 通俗理解动态库与静态库区别. CSDN. 2019. <a href="https://blog.csdn.net/wonengguwozai/article/details/93195827" target="_blank" rel="noopener">https://blog.csdn.net/wonengguwozai/article/details/93195827</a></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Ayzp Alipay">
+        <p>Alipay</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Ayzp
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://ayzp.github.io/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="cmake学习笔记">https://ayzp.github.io/2020/05/31/cmake学习笔记/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"> <i class="fa fa-tag"></i> 工具</a>
+              <a href="/tags/C/" rel="tag"> <i class="fa fa-tag"></i> C</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/31/PS%E5%88%B6%E4%BD%9C%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%B0%81%E9%9D%A2/" rel="prev" title="PS制作微信公众号封面">
+      <i class="fa fa-chevron-left"></i> PS制作微信公众号封面
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#学习目的"><span class="nav-number">1.1.</span> <span class="nav-text">学习目的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#学习路线"><span class="nav-number">1.2.</span> <span class="nav-text">学习路线</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一-简介"><span class="nav-number"></span> <span class="nav-text">一 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-内容"><span class="nav-number"></span> <span class="nav-text">二 内容</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-简单入门"><span class="nav-number">1.</span> <span class="nav-text">2.1 简单入门</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-下载cmake"><span class="nav-number">1.1.</span> <span class="nav-text">2.1.1 下载cmake</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-hello-world"><span class="nav-number">1.2.</span> <span class="nav-text">2.1.2 hello world</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-准备工作"><span class="nav-number">1.2.1.</span> <span class="nav-text">A 准备工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-开始构建"><span class="nav-number">1.2.2.</span> <span class="nav-text">B 开始构建</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-简单的解释"><span class="nav-number">1.3.</span> <span class="nav-text">2.1.3 简单的解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-4-基本语法规则"><span class="nav-number">1.4.</span> <span class="nav-text">2.1.4 基本语法规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-更好一点的Hello-World"><span class="nav-number">2.</span> <span class="nav-text">2.2 更好一点的Hello World</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-更好表现在："><span class="nav-number">2.1.</span> <span class="nav-text">2.2.1 更好表现在：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-指令学习"><span class="nav-number">2.2.</span> <span class="nav-text">2.2.2 指令学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-指令add-subdirectory"><span class="nav-number">2.2.1.</span> <span class="nav-text">A 指令add_subdirectory</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-指令install"><span class="nav-number">2.2.2.</span> <span class="nav-text">B 指令install</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#B-1-目标文件的安装"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">B.1 目标文件的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#指令介绍"><span class="nav-number">2.2.2.1.1.</span> <span class="nav-text">指令介绍</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#举个栗子"><span class="nav-number">2.2.2.1.2.</span> <span class="nav-text">举个栗子</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#B-2-普通文件的安装"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">B.2 普通文件的安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#B-3-非目标文件的可执行程序安装（比如脚本之类）"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">B.3 非目标文件的可执行程序安装（比如脚本之类）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-注意"><span class="nav-number">2.2.3.</span> <span class="nav-text">C 注意</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-3-问题"><span class="nav-number">2.3.</span> <span class="nav-text">2.2.3 问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-cmake的整体流程"><span class="nav-number">2.3.1.</span> <span class="nav-text">A cmake的整体流程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-静态库和动态库"><span class="nav-number">3.</span> <span class="nav-text">2.3 静态库和动态库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-1-简述静态库和动态库"><span class="nav-number">3.1.</span> <span class="nav-text">2.3.1 简述静态库和动态库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-指令学习"><span class="nav-number">3.2.</span> <span class="nav-text">2.3.2 指令学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-指令add-library"><span class="nav-number">3.2.1.</span> <span class="nav-text">A 指令add_library</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-指令set-target-properties"><span class="nav-number">3.2.2.</span> <span class="nav-text">B 指令set_target_properties</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-指令get-target-property"><span class="nav-number">3.2.3.</span> <span class="nav-text">C 指令get_target_property</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-3-问题"><span class="nav-number">3.3.</span> <span class="nav-text">2.3.3 问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-安装共享库和头文件问题"><span class="nav-number">3.3.1.</span> <span class="nav-text">A 安装共享库和头文件问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述"><span class="nav-number">3.3.1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解决"><span class="nav-number">3.3.1.2.</span> <span class="nav-text">解决</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-静态库和动态库的区别"><span class="nav-number">3.3.2.</span> <span class="nav-text">B 静态库和动态库的区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-如何使用外部共享库和头文件"><span class="nav-number">4.</span> <span class="nav-text">2.4 如何使用外部共享库和头文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-1-简述"><span class="nav-number">4.1.</span> <span class="nav-text">2.4.1 简述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-2-指令学习"><span class="nav-number">4.2.</span> <span class="nav-text">2.4.2 指令学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-引入头文件搜索路径"><span class="nav-number">4.2.1.</span> <span class="nav-text">A 引入头文件搜索路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-为target添加共享库"><span class="nav-number">4.2.2.</span> <span class="nav-text">B 为target添加共享库</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#B-1-如何通过link-directories指令加入非标准的库文件搜索路径"><span class="nav-number">4.2.2.1.</span> <span class="nav-text">B.1 如何通过link_directories指令加入非标准的库文件搜索路径</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#B-2-如何通过target-link-libraries为库或可执行二进制加入库连接"><span class="nav-number">4.2.2.2.</span> <span class="nav-text">B.2 如何通过target_link_libraries为库或可执行二进制加入库连接</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-未完待续"><span class="nav-number"></span> <span class="nav-text">三 未完待续</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number"></span> <span class="nav-text">参考文献</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ayzp"
+      src="/images/headphoto.png">
+  <p class="site-author-name" itemprop="name">Ayzp</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ayzp" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ayzp" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1922428186@qq.com" title="E-Mail → mailto:1922428186@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/808fb7830936" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;808fb7830936" rel="noopener" target="_blank"><i class="fa fa-heartbeat fa-fw"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/ALexander_Monster" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;ALexander_Monster" rel="noopener" target="_blank"><i class="fa fa-book fa-fw"></i>CSDN</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YZP</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">52k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">47 mins.</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
