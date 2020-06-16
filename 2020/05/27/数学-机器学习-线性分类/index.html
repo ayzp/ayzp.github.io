@@ -50,7 +50,7 @@
 <meta property="og:image" content="https://ayzp.github.io/2020/05/27/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200522085726438.png">
 <meta property="og:image" content="https://ayzp.github.io/2020/05/27/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200522092643160.png">
 <meta property="article:published_time" content="2020-05-27T00:57:53.000Z">
-<meta property="article:modified_time" content="2020-05-27T02:53:01.573Z">
+<meta property="article:modified_time" content="2020-06-06T09:00:08.146Z">
 <meta property="article:author" content="Ayzp">
 <meta property="article:tag" content="数学">
 <meta property="article:tag" content="机器学习">
@@ -228,10 +228,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-05-27 08:57:53 / Modified: 10:53:01" itemprop="dateCreated datePublished" datetime="2020-05-27T08:57:53+08:00">2020-05-27</time>
+              <time title="Created: 2020-05-27 08:57:53" itemprop="dateCreated datePublished" datetime="2020-05-27T08:57:53+08:00">2020-05-27</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-06 17:00:08" itemprop="dateModified" datetime="2020-06-06T17:00:08+08:00">2020-06-06</time>
+              </span>
 
           
             <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -246,7 +252,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>9.2k</span>
+              <span>9.3k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -270,7 +276,7 @@
 <a id="more"></a>
 <h3 id="4-2-2-线性分类"><a href="#4-2-2-线性分类" class="headerlink" title="4.2.2 线性分类"></a>4.2.2 线性分类</h3><p>线性回归$f(w,b)=w^{T}x+b, x \in {R^p}$是机器学习的核心。线性回归有三个属性：<code>线性</code>、<code>全局性</code>、<code>数据未加工</code>。其他机器学习的方式都是打破这三个属性的某一个或某几个而提出的。这这些和线性回归共同构成了机器学习方法。</p>
 <p><img src="/2020/05/27/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/机器学习-方法分类-1589592332538.png" alt="机器学习-方法分类"></p>
-<p>线性分类是打破了线性回归的全局非线性，线性回归一般是通过线性回归函数得出结论后直接输出，而线性分类是将线性回归得到的函数输入激活函数，激活函数是非线性的。</p>
+<p>线性分类是打破了线性回归的全局非线性，线性回归一般是通过线性回归函数得出结论后直接输出，<strong>而线性分类是将线性回归得到的函数输入激活函数，激活函数是非线性的。</strong></p>
 <p>线性分类分为硬分类和软分类。其中硬分类是输出结果就一个集合，集合元素仅有两个0和1。而软分类输出结果则是0-1的一个区间，概率。软分类可以分为生成式和判别式。其中大名鼎鼎的logistic regression就是软分类，大家不要被它的名字误导了，虽然它叫回归，实际上它是用来处理分类问题的。</p>
 <p>另外，我们还可以从降维的角度来考虑，原本是多维，然后降维或投影到0,1上来了</p>
 <h2 id="4-2-内容"><a href="#4-2-内容" class="headerlink" title="4.2 内容"></a>4.2 内容</h2><h3 id="4-2-1-背景"><a href="#4-2-1-背景" class="headerlink" title="4.2.1 背景"></a>4.2.1 背景</h3><blockquote>
@@ -290,7 +296,12 @@
 <p><strong>策略：</strong><code>Loss Function: 被错误分类点的个数</code></p>
 <h4 id="A-已知"><a href="#A-已知" class="headerlink" title="A 已知"></a>A 已知</h4><p><img src="/2020/05/27/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/image-20200516105906642.png" alt="image-20200516105906642"></p>
 <h4 id="B-求"><a href="#B-求" class="headerlink" title="B 求"></a>B 求</h4><p>分类成<code>+1 -1</code>两类</p>
-<h4 id="C-解"><a href="#C-解" class="headerlink" title="C 解"></a>C 解</h4><p><img src="/2020/05/27/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/线性分类-感知机.jpg" alt=" "></p>
+<h4 id="C-解"><a href="#C-解" class="headerlink" title="C 解"></a>C 解</h4><p>模型：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+f(x) = sign(w^{T}x) \\
+x \in R^{p}, w \in R^{p}
+\end{align}</script><p><img src="/2020/05/27/%E6%95%B0%E5%AD%A6-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%BA%BF%E6%80%A7%E5%88%86%E7%B1%BB/线性分类-感知机.jpg" alt=" "></p>
 <p>一般使用感知机算法有个前提，那就是数据线性可分，如果数据线性不可分，那就可以用<code>pocket algorithm</code>，它允许错误分类存在。</p>
 <h4 id="D-收获"><a href="#D-收获" class="headerlink" title="D 收获"></a>D 收获</h4><p>感知机是线性分类硬输出的一种方法，其思想为<code>错误驱动</code>，就是使得<code>被错误分类的样本点数</code><strong>最少</strong>。是一个很简单的算法，其实现算法使用随机梯度算法SGD进行，通过SGD确定$\Delta w$的大小。</p>
 <p>需要实践下这个算法才有感觉，现在还没有感觉。主要问题出现在不理解<script type="math/tex">y _{i} w^{T} x _{i}</script>的具体含义，需要一个实际的例子来说明。</p>
@@ -618,7 +629,7 @@ p(y|x)=\frac{p(x|y)p(y)}{p(x)}=\frac{\prod\limits_{i=1}^pp(x_i|y)p(y)}{p(x)}
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -679,13 +690,13 @@ p(y|x)=\frac{p(x|y)p(y)}{p(x)}=\frac{\prod\limits_{i=1}^pp(x_i|y)p(y)}{p(x)}
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">52k</span>
+    <span title="Symbols count total">53k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">47 mins.</span>
+    <span title="Reading time total">48 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>

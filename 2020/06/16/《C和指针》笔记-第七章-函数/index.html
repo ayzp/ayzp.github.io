@@ -20,24 +20,23 @@
     var CONFIG = {"hostname":"ayzp.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="问题描述在写hexo博客的时候，遇到markdown中公式太长太复杂的时候，就老是显示出错，部分错误信息如下：  这个问题好久就存在了，前几次一直懒得解决，直接用图片代替公式，今天，爷不躲了！开干！ 测试公式：  P(x) &#x3D; \frac{1}{ {\sqrt {2\pi } \sigma }}\exp \{  - \frac{ { { {(x - \mu )}^2}}}{ {2{\sigma ^">
+  <meta name="description" content="第7章 函数7.1 简介 更多详细见语句思维导图">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo复杂latex公式无法显示问题">
-<meta property="og:url" content="https://ayzp.github.io/2020/05/15/hexo%E5%A4%8D%E6%9D%82latex%E5%85%AC%E5%BC%8F%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:title" content="《C和指针》笔记-第七章-函数">
+<meta property="og:url" content="https://ayzp.github.io/2020/06/16/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E5%87%BD%E6%95%B0/index.html">
 <meta property="og:site_name" content="AYZP">
-<meta property="og:description" content="问题描述在写hexo博客的时候，遇到markdown中公式太长太复杂的时候，就老是显示出错，部分错误信息如下：  这个问题好久就存在了，前几次一直懒得解决，直接用图片代替公式，今天，爷不躲了！开干！ 测试公式：  P(x) &#x3D; \frac{1}{ {\sqrt {2\pi } \sigma }}\exp \{  - \frac{ { { {(x - \mu )}^2}}}{ {2{\sigma ^">
+<meta property="og:description" content="第7章 函数7.1 简介 更多详细见语句思维导图">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/hexo%E5%A4%8D%E6%9D%82latex%E5%85%AC%E5%BC%8F%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20200515144644002.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/hexo%E5%A4%8D%E6%9D%82latex%E5%85%AC%E5%BC%8F%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20200515145408291.png">
-<meta property="og:image" content="https://ayzp.github.io/2020/05/15/hexo%E5%A4%8D%E6%9D%82latex%E5%85%AC%E5%BC%8F%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20200515145551441.png">
-<meta property="article:published_time" content="2020-05-15T06:44:20.000Z">
-<meta property="article:modified_time" content="2020-05-15T08:25:27.686Z">
+<meta property="og:image" content="https://ayzp.github.io/2020/06/16/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E5%87%BD%E6%95%B0/%E7%AC%AC7%E7%AB%A0+%E5%87%BD%E6%95%B0.png">
+<meta property="article:published_time" content="2020-06-16T11:35:54.000Z">
+<meta property="article:modified_time" content="2020-06-16T11:37:42.655Z">
 <meta property="article:author" content="Ayzp">
-<meta property="article:tag" content="工具">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="《C和指针》">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://ayzp.github.io/2020/05/15/hexo%E5%A4%8D%E6%9D%82latex%E5%85%AC%E5%BC%8F%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20200515144644002.png">
+<meta name="twitter:image" content="https://ayzp.github.io/2020/06/16/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E5%87%BD%E6%95%B0/%E7%AC%AC7%E7%AB%A0+%E5%87%BD%E6%95%B0.png">
 
-<link rel="canonical" href="https://ayzp.github.io/2020/05/15/hexo%E5%A4%8D%E6%9D%82latex%E5%85%AC%E5%BC%8F%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/">
+<link rel="canonical" href="https://ayzp.github.io/2020/06/16/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E5%87%BD%E6%95%B0/">
 
 
 <script id="page-configurations">
@@ -50,7 +49,7 @@
   };
 </script>
 
-  <title>hexo复杂latex公式无法显示问题 | AYZP</title>
+  <title>《C和指针》笔记-第七章-函数 | AYZP</title>
   
 
 
@@ -186,7 +185,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ayzp.github.io/2020/05/15/hexo%E5%A4%8D%E6%9D%82latex%E5%85%AC%E5%BC%8F%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="https://ayzp.github.io/2020/06/16/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E5%87%BD%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/headphoto.png">
@@ -199,7 +198,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          hexo复杂latex公式无法显示问题
+          《C和指针》笔记-第七章-函数
         </h1>
 
         <div class="post-meta">
@@ -210,7 +209,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-05-15 14:44:20 / Modified: 16:25:27" itemprop="dateCreated datePublished" datetime="2020-05-15T14:44:20+08:00">2020-05-15</time>
+              <time title="Created: 2020-06-16 19:35:54 / Modified: 19:37:42" itemprop="dateCreated datePublished" datetime="2020-06-16T19:35:54+08:00">2020-06-16</time>
             </span>
 
           
@@ -226,7 +225,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>691</span>
+              <span>1.3k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -245,23 +244,52 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>在写hexo博客的时候，遇到markdown中公式太长太复杂的时候，就老是显示出错，部分错误信息如下：</p>
-<p><img src="/2020/05/15/hexo%E5%A4%8D%E6%9D%82latex%E5%85%AC%E5%BC%8F%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20200515144644002.png" alt="image-20200515144644002"></p>
-<p>这个问题好久就存在了，前几次一直懒得解决，直接用图片代替公式，今天，爷不躲了！开干！</p>
-<p>测试公式：</p>
-<script type="math/tex; mode=display">
-P(x) = \frac{1}{ {\sqrt {2\pi } \sigma }}\exp \{  - \frac{ { { {(x - \mu )}^2}}}{ {2{\sigma ^2}}}\}</script><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(x) &#x3D; \frac&#123;1&#125;&#123;&#123;\sqrt &#123;2\pi &#125; \sigma &#125;&#125;\exp \&#123;  - \frac&#123;&#123;&#123;&#123;(x - \mu )&#125;^2&#125;&#125;&#125;&#123;&#123;2&#123;\sigma ^2&#125;&#125;&#125;\&#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="第7章-函数"><a href="#第7章-函数" class="headerlink" title="第7章 函数"></a>第7章 函数</h1><h2 id="7-1-简介"><a href="#7-1-简介" class="headerlink" title="7.1 简介"></a>7.1 简介</h2><p><img src="/2020/06/16/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E5%87%BD%E6%95%B0/第7章+函数.png" alt="第7章+函数"></p>
+<p><a href="https://naotu.baidu.com/file/f7ba912b89bf25e9414dab68808aaad7" target="_blank" rel="noopener">更多详细见语句思维导图</a></p>
 <a id="more"></a>
-<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><blockquote>
-<p>我的天，其实这是一个hexo中的latex公式渲染问题。不能在公式内连续使用两个<code>左花括号</code>！，把两个左花括号中间加<code>空格</code>分开就行了</p>
+<h2 id="7-2-收获"><a href="#7-2-收获" class="headerlink" title="7.2 收获"></a>7.2 收获</h2><h3 id="7-2-1-函数名风格"><a href="#7-2-1-函数名风格" class="headerlink" title="7.2.1 函数名风格"></a>7.2.1 函数名风格</h3><p>把函数类型和函数名分写两行纯属风格问题<br>该写法可使我们在使用视觉或某些工具程序追踪源代码时更容易查找函数名</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *</span><br><span class="line">fint_int(<span class="keyword">int</span> key, <span class="keyword">int</span> <span class="built_in">array</span>[], <span class="keyword">int</span> array_len)</span><br></pre></td></tr></table></figure>
+<h3 id="7-2-2-函数原型"><a href="#7-2-2-函数原型" class="headerlink" title="7.2.2 函数原型"></a>7.2.2 函数原型</h3><p>使用原型最方便（且最安全）的方法是把原型置于一个单独的文件；<br>需要时就<code>#include</code></p>
+<h3 id="7-2-3-函数参数——缺省参数提升"><a href="#7-2-3-函数参数——缺省参数提升" class="headerlink" title="7.2.3 函数参数——缺省参数提升"></a>7.2.3 函数参数——缺省参数提升</h3><blockquote>
+<p>default argument promotion</p>
 </blockquote>
-<h1 id="没用的分析"><a href="#没用的分析" class="headerlink" title="没用的分析"></a>没用的分析</h1><p>之前，我直接从mathtype导出的公式格式为：</p>
-<p><img src="/2020/05/15/hexo%E5%A4%8D%E6%9D%82latex%E5%85%AC%E5%BC%8F%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20200515145408291.png" alt="image-20200515145408291"></p>
-<p>其中有三处<code>左花括号</code>连续使用的情况，就是这里使公式出错，用<code>空格</code>拆散它们！</p>
-<p><img src="/2020/05/15/hexo%E5%A4%8D%E6%9D%82latex%E5%85%AC%E5%BC%8F%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20200515145551441.png" alt="image-20200515145551441"></p>
-<p>最后，你会看到成功的显示公式啦</p>
-<script type="math/tex; mode=display">
-P(x) = \frac{1}{ {\sqrt {2\pi } \sigma }}\exp \{  - \frac{ { { {(x - \mu )}^2}}}{ {2{\sigma ^2}}}\}</script><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>[1] Sui_Xin. Hexo中的LaTex公式渲染问题. 简书. 2018. <a href="https://www.jianshu.com/p/a9f26f4cd4e6" target="_blank" rel="noopener">https://www.jianshu.com/p/a9f26f4cd4e6</a></p>
+<p>在参数传递之前，char和short类型的参数被提升为int类型，float类型的参数被提升为double类型。</p>
+<h3 id="7-2-4-ADT和黑盒"><a href="#7-2-4-ADT和黑盒" class="headerlink" title="7.2.4 ADT和黑盒"></a>7.2.4 ADT和黑盒</h3><p>C语言可以用于设计和实现<strong>抽象数据类型(ADT, abstract data type)</strong>，因为它可以限制函数和数据定义的作用域。这个技巧也被称为<strong>黑盒(black box)</strong>设计。</p>
+<ul>
+<li>模块的用户并不需要知道模块实现的任何细节，而且除了那些定义好的接口之外，用户不能以任何方式访问模块</li>
+<li>限制对模块的访问是通过<code>static</code>关键字的合理使用实现的。它可以限制对那些并非接口的函数和数据的访问</li>
+</ul>
+<h3 id="7-2-5-递归"><a href="#7-2-5-递归" class="headerlink" title="7.2.5 递归"></a>7.2.5 递归</h3><h4 id="A-递归的特点"><a href="#A-递归的特点" class="headerlink" title="A 递归的特点"></a>A 递归的特点</h4><ul>
+<li>螺旋状while循环</li>
+<li>直观显示</li>
+<li>堆栈非常适合于实现递归，所以许多编译器使用堆栈来实现递归</li>
+</ul>
+<h4 id="B-递归的缺点"><a href="#B-递归的缺点" class="headerlink" title="B 递归的缺点"></a>B 递归的缺点</h4><ul>
+<li>有时效率很低，低到令人发指</li>
+</ul>
+<h4 id="C-追踪递归函数"><a href="#C-追踪递归函数" class="headerlink" title="C 追踪递归函数"></a>C 追踪递归函数</h4><p>递归函数从直观上去理解有些困难，因为，初学者对递归函数会产生函数永远不会终止的错觉</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 接受一个整型值（无符号），把它转换成字符并打印它，前导零被删除</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">binary_to_ascii</span><span class="params">( <span class="keyword">unsigned</span> <span class="keyword">int</span> value )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> quotient;</span><br><span class="line">    </span><br><span class="line">    quotient = value / <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">if</span> (quotient != <span class="number">0</span>) <span class="comment">// deadline</span></span><br><span class="line">        binary_to_ascii( quotient );</span><br><span class="line">    <span class="built_in">putchar</span>(value % <span class="number">10</span> + ‘<span class="number">0</span>’);        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用堆栈的方式去追踪递归函数</p>
+<h4 id="D-递归与迭代"><a href="#D-递归与迭代" class="headerlink" title="D 递归与迭代"></a>D 递归与迭代</h4><p>递归存在效率过低的问题，最著名的例子就是斐波那契数的计算，效率超级低，基本上能用递归实现的，都能用迭代代替。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> </span><br><span class="line">fibonacci( <span class="keyword">int</span> n )</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (n &lt; <span class="number">2</span>) <span class="comment">//deadline </span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> ( fibonacci(n<span class="number">-1</span>) + fibonacci(n<span class="number">-2</span>) );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用递归方式实现一个函数前，先问问你自己使用递归带来的好处是否抵得上它的代价</p>
+<h3 id="7-2-6-可变参数列表"><a href="#7-2-6-可变参数列表" class="headerlink" title="7.2.6 可变参数列表"></a>7.2.6 可变参数列表</h3><p>C语言是有可变参数列表的，通过<code>宏</code>实现。<code>stdarg宏</code></p>
+<ul>
+<li>va_start</li>
+<li>va_arg</li>
+<li>va_end</li>
+</ul>
+<h3 id="7-2-7-警告的总结"><a href="#7-2-7-警告的总结" class="headerlink" title="7.2.7 警告的总结"></a>7.2.7 警告的总结</h3><ul>
+<li>错误地在其他函数的作用域内编写函数原型</li>
+<li>没有为那些返回值不是整型的函数编写原型</li>
+<li>把函数原型和旧式风格的函数定义混合使用</li>
+<li>在va_arg中使用错误的参数类型，导致未定义的错误</li>
+</ul>
+<h3 id="7-2-8-编程好习惯"><a href="#7-2-8-编程好习惯" class="headerlink" title="7.2.8 编程好习惯"></a>7.2.8 编程好习惯</h3><ul>
+<li>在函数原型中使用参数名，可以给使用该函数的用户提供更多的信息</li>
+<li>抽象数据类型可以减少程序对模块实现细节的依赖，从而提高程序的可靠性</li>
+<li>当递归定义清晰的优点可以补偿它的效率开销时，就可以使用这个工具</li>
+</ul>
 
     </div>
 
@@ -292,7 +320,7 @@ P(x) = \frac{1}{ {\sqrt {2\pi } \sigma }}\exp \{  - \frac{ { { {(x - \mu )}^2}}}
   </li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="https://ayzp.github.io/2020/05/15/hexo%E5%A4%8D%E6%9D%82latex%E5%85%AC%E5%BC%8F%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/" title="hexo复杂latex公式无法显示问题">https://ayzp.github.io/2020/05/15/hexo复杂latex公式无法显示问题/</a>
+    <a href="https://ayzp.github.io/2020/06/16/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E5%87%BD%E6%95%B0/" title="《C和指针》笔记-第七章-函数">https://ayzp.github.io/2020/06/16/《C和指针》笔记-第七章-函数/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -303,7 +331,8 @@ P(x) = \frac{1}{ {\sqrt {2\pi } \sigma }}\exp \{  - \frac{ { { {(x - \mu )}^2}}}
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"> <i class="fa fa-tag"></i> 工具</a>
+              <a href="/tags/C/" rel="tag"> <i class="fa fa-tag"></i> C</a>
+              <a href="/tags/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B/" rel="tag"> <i class="fa fa-tag"></i> 《C和指针》</a>
           </div>
 
         
@@ -312,13 +341,10 @@ P(x) = \frac{1}{ {\sqrt {2\pi } \sigma }}\exp \{  - \frac{ { { {(x - \mu )}^2}}}
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/05/15/hexo-next%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E5%88%86%E7%B1%BB%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" rel="prev" title="hexo-next主题添加分类方法总结">
-      <i class="fa fa-chevron-left"></i> hexo-next主题添加分类方法总结
+    <a href="/2020/05/31/cmake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="prev" title="cmake学习笔记">
+      <i class="fa fa-chevron-left"></i> cmake学习笔记
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/05/15/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E6%AD%A3%E5%88%99%E5%8C%96%E4%B8%8E%E8%BF%87%E6%8B%9F%E5%90%88/" rel="next" title="机器学习中正则化与过拟合">
-      机器学习中正则化与过拟合 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -377,7 +403,7 @@ P(x) = \frac{1}{ {\sqrt {2\pi } \sigma }}\exp \{  - \frac{ { { {(x - \mu )}^2}}}
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题描述"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结论"><span class="nav-number">2.</span> <span class="nav-text">结论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#没用的分析"><span class="nav-number">3.</span> <span class="nav-text">没用的分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第7章-函数"><span class="nav-number">1.</span> <span class="nav-text">第7章 函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-简介"><span class="nav-number">1.1.</span> <span class="nav-text">7.1 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-收获"><span class="nav-number">1.2.</span> <span class="nav-text">7.2 收获</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-1-函数名风格"><span class="nav-number">1.2.1.</span> <span class="nav-text">7.2.1 函数名风格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-2-函数原型"><span class="nav-number">1.2.2.</span> <span class="nav-text">7.2.2 函数原型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-3-函数参数——缺省参数提升"><span class="nav-number">1.2.3.</span> <span class="nav-text">7.2.3 函数参数——缺省参数提升</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-4-ADT和黑盒"><span class="nav-number">1.2.4.</span> <span class="nav-text">7.2.4 ADT和黑盒</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-5-递归"><span class="nav-number">1.2.5.</span> <span class="nav-text">7.2.5 递归</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-递归的特点"><span class="nav-number">1.2.5.1.</span> <span class="nav-text">A 递归的特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-递归的缺点"><span class="nav-number">1.2.5.2.</span> <span class="nav-text">B 递归的缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-追踪递归函数"><span class="nav-number">1.2.5.3.</span> <span class="nav-text">C 追踪递归函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#D-递归与迭代"><span class="nav-number">1.2.5.4.</span> <span class="nav-text">D 递归与迭代</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-6-可变参数列表"><span class="nav-number">1.2.6.</span> <span class="nav-text">7.2.6 可变参数列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-7-警告的总结"><span class="nav-number">1.2.7.</span> <span class="nav-text">7.2.7 警告的总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-8-编程好习惯"><span class="nav-number">1.2.8.</span> <span class="nav-text">7.2.8 编程好习惯</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
